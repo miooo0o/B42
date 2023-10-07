@@ -6,11 +6,11 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 17:45:35 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/03 17:45:37 by minakim          ###   ########.fr       */
+/*   Updated: 2023/10/07 12:08:02 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
 size_t	ft_strspn(const char *str, const char *delim);
 

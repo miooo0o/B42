@@ -9,26 +9,34 @@ AR			= ar -rc
 # -v : provide verbose output. `a` if the file is added and \
 		`r` if the file replace a file already in the archive.
 
-NAME		= libft.a
-INCLUDE		= ./include
+# standard
+NAME		=	libft.a
+INCLUDE		=	-I ./include
+SRCS_DIR	=	./src/
+OBJS_DIR	=	./obj/
 
-SRC 		= $(shell find ./src -iname "*.c")
-OBJ 		= $(SRC_NAME:.c=.o)
+# sources
+SRCS		=	$(shell find $(SRCS_DIR) -name "*.c")
+OBJS		=	$(patsubst $(SRCS_DIR)%.c,$(OBJS_DIR)%.o,$(SRCS))
 
+###
 
-# Main Command
-all: $(NAME)
+all:		$(NAME)
 
-%.o: %.c
-		@$(CC) $(CFLAGS) -c -o $@ $< -I $(INCLUDE)
+$(NAME):	$(OBJS)
+			@mkdir -p $(@D)
+			@$(AR) $(NAME) $(OBJS)
 
-$(NAME): $(OBJ)
-		@$(AR) $@ $^
+$(OBJS_DIR)%.o : $(SRCS_DIR)%.c
+			@mkdir -p $(@D)
+			@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
-		@$(RM) -f $(OBJ)
+			@$(RM) -rf $(OBJS_DIR)
 
-fclean: clean
-		@$(RM) -f $(NAME)
+fclean:		clean
+			@$(RM) -f $(NAME)
 
-re: fclean all
+re:			fclean all
+
+.PHONY: all clean fclean re

@@ -6,11 +6,11 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 17:44:05 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/03 17:47:54 by minakim          ###   ########.fr       */
+/*   Updated: 2023/10/07 12:08:27 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
 /// @brief Duplicates a substring from `src` up to the first occurrence of `c`.
 /// If a pointer is passed, `src` starts from the position of the pointer.

@@ -6,11 +6,11 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 17:34:28 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/03 17:35:44 by minakim          ###   ########.fr       */
+/*   Updated: 2023/10/07 12:09:16 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
 int	ft_isspace(char c)
 {

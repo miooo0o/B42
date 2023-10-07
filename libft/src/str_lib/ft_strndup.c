@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
 /// @brief Duplicates a substring from `src` up to `len` characters.
 /// If a pointer is passed, `src` starts from the position of the pointer.
