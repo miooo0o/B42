@@ -15,32 +15,33 @@ NAME		=	philo
 INCLUDE		=	-I ./include/
 SRCS_DIR	=	./src/
 OBJS_DIR	=	./obj/
-LIBS_DIR	=	./lib/
+#LIBS_DIR	=	./lib/
 
 # sources
 SRCS		=	$(shell find $(SRCS_DIR) -name "*.c")
 OBJS		=	$(patsubst $(SRCS_DIR)%.c,$(OBJS_DIR)%.o,$(SRCS))
-LIBS		= 	$(shell find $(LIBS_DIR) -name "*.a")
+#LIBS		= 	$(shell find $(LIBS_DIR) -name "*.a")
 
 
 # Main Command
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			@$(foreach dir,$(LIB_DIR),make -C $(dir);)
-			@$(CC) $(CFLAGS) $(OBJS) $(LIB_PATH) -o $(NAME)
+			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+#			@$(foreach dir,$(LIB_DIR),make -C $(dir);)
+			@#$(CC) $(CFLAGS) $(OBJS) $(LIB_PATH) -o $(NAME)
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 			@mkdir -p $(@D)
-			@$(CC) -g $(INCLUDE) -c $< -o $@
+			@$(CC) $(INCLUDE) -c $< -o $@
 
 clean:
 			@$(RM) -rf $(OBJS_DIR)
-			@$(foreach dir,$(LIB_DIR),make clean -C $(dir);)
+#			@$(foreach dir,$(LIB_DIR),make clean -C $(dir);)
 
 fclean:		clean
 			@$(RM) -f $(NAME)
-			@$(RM) -f $(LIB_PATH)
+			@#$(RM) -f $(LIBS)
 
 re:			fclean all
 
