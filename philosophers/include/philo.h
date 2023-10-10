@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/07 12:24:54 by minakim          ###   ########.fr       */
+/*   Updated: 2023/10/10 15:10:30 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@
 
 // Prevent Heap mem leak: use addition to char or array
 # define DATA_SIZE	3072
+
+enum e_bool {
+	false = 0,
+	true = 1
+} t_bool;
 
 typedef struct s_resource
 {
