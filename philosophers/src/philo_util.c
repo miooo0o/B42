@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 20:36:48 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/10 21:13:21 by minakim          ###   ########.fr       */
+/*   Updated: 2023/10/23 17:15:05 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,33 @@ int	ft_atoi(const char *str)
 	return (sign * result);
 }
 
-int	check_args(int ac, char **av)
+int	is_correct_args(char *av)
 {
-	if (ac > 4 && ac <= 6)
+	int	i;
+
+	i = 0;
+	while (av[i] != '\0')
 	{
-		if (ft_atoi(av[1]) < 1)
+		if (av[i] < '0' || av[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	check_valid_args(int ac, char **av)
+{
+	if (ac == 5 || ac == 6)
+	{
+		if (ft_atoi(av[1]) < 1 || !is_correct_args(av[1]))
 			return (printf("Number_of_philosophers must be at least 1.\n"));
-		if (ft_atoi(av[2]) < 1)
+		if (ft_atoi(av[2]) < 1 || !is_correct_args(av[2]))
 			return (printf("Time_to_die must be at least 1.\n"));
-		if (ft_atoi(av[3]) < 1)
+		if (ft_atoi(av[3]) < 1 || !is_correct_args(av[3]))
 			return (printf("Time_to_eat must be at least 1.\n"));
-		if (ft_atoi(av[4]) < 1)
+		if (ft_atoi(av[4]) < 1 || !is_correct_args(av[4]))
 			return (printf("Time_to_sleep must be at least 1.\n"));
-		if (ac == 6 && ft_atoi(av[5]) < 1)
+		if (av[5] && ft_atoi(av[5]) < 1 || !is_correct_args(av[5]))
 			return (printf("Number_of_times_each_philosopher_must_eat \
 must be at least 1.\n"));
 	}
@@ -63,3 +77,21 @@ must be at least 1.\n"));
 	return (0);
 }
 
+size_t	get_current_time(void)
+{
+	struct timeval	time;
+
+	if (gettimeofday(&time, NULL) == -1)
+		write(2, "gettimeofday() error\n", 22);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+int ft_usleep(size_t milliseconds)
+{
+	size_t	start;
+
+	start = get_current_time();
+	while ((get_current_time() - start) < milliseconds)
+		usleep(500);
+	return (0);
+}

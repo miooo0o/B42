@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/10 21:25:08 by minakim          ###   ########.fr       */
+/*   Updated: 2023/10/23 18:02:20 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,43 +25,57 @@
 // Prevent Heap mem leak: use addition to char or array
 # define DATA_SIZE	3072
 
-// Boolean
+/// true/false
+
+# define TRUE 1
+# define FALSE 0
+
+
+/// tmp
+# define NUM_STATUS_MSGS 5
+
+/// Boolean
 typedef enum e_bool
 {
 	false = 0,
 	true = 1
 }	t_bool;
 
-typedef struct s_resource
-{
-	size_t			n_philos;
-	size_t			time_die;
-	size_t			time_eat;
-	size_t			time_jam;
-	size_t			n_eat_opt;
-	t_bool			no_deaths;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	*printlock;
-}					t_resource;
-
 typedef struct s_philo
 {
-	size_t			id;
-	size_t			n_ate;
-	t_bool			is_odd;
-	pthread_mutex_t	*left;
-	pthread_mutex_t	*right;
+	int 			id;
+	int 			n_ate;
+	int				status;
+	long long		t_launch;
+	long long		t_last_meal;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
 }					t_philo;
+
+
+typedef struct s_resource
+{
+	int				n_philos;
+	long long		time_die;
+	long long		time_eat;
+	long long		time_jam;
+	int				required_eat;
+	int				*time_table;
+	t_philo			**philos;
+	pthread_t		**philosophers;
+	pthread_mutex_t	**forks;
+	pthread_mutex_t	*printlock[5];
+	int				funeral;
+	int				*next;
+}					t_resource;
 
 /* philo.c */
 
 
 /* philo_routine.c */
-int	eat(t_philo *philo, t_resource *rsc);
-int jam(t_philo *philo, t_resource *rsc);
-int	think(t_philo *philo, t_resource *rsc);
 
 /* philo_util.c */
-int	check_args(int ac, char **av);
+int	check_valid_args(int ac, char **av);
+int	ft_atoi(const char *str);
 
 #endif
