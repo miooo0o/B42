@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 20:36:48 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/23 17:15:05 by minakim          ###   ########.fr       */
+/*   Updated: 2023/10/24 16:51:52 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,21 @@ must be at least 1.\n"));
 	return (0);
 }
 
-size_t	get_current_time(void)
+size_t	ft_get_time(void)
 {
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
-		write(2, "gettimeofday() error\n", 22);
+	{
+		write(2, "error: gettimeofday()\n", 23);
+		/* exit */
+	}
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-int ft_usleep(size_t milliseconds)
+int	ft_printstatus(t_resource *rsc)
 {
-	size_t	start;
+	long long	now;
 
-	start = get_current_time();
-	while ((get_current_time() - start) < milliseconds)
-		usleep(500);
-	return (0);
+	now = ft_get_time();
 }

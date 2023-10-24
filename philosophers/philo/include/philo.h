@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/23 18:02:20 by minakim          ###   ########.fr       */
+/*   Updated: 2023/10/24 15:22:46 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,17 @@
 # define TRUE 1
 # define FALSE 0
 
-
 /// tmp
 # define NUM_STATUS_MSGS 5
+typedef enum e_status
+{
+	none = 0,
+	eating,
+	jaming,
+	thinking,
+	death
+}	t_status;
+
 
 /// Boolean
 typedef enum e_bool
@@ -45,9 +53,9 @@ typedef struct s_philo
 {
 	int 			id;
 	int 			n_ate;
-	int				status;
-	long long		t_launch;
-	long long		t_last_meal;
+	t_status 		s;
+	size_t			t_launch;
+	size_t			t_last_meal;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
 }					t_philo;
@@ -75,7 +83,7 @@ typedef struct s_resource
 /* philo_routine.c */
 
 /* philo_util.c */
-int	check_valid_args(int ac, char **av);
-int	ft_atoi(const char *str);
-
+int		check_valid_args(int ac, char **av);
+int		ft_atoi(const char *str);
+size_t	ft_get_time(void);
 #endif

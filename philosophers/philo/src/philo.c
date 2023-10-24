@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:58:56 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/23 18:09:33 by minakim          ###   ########.fr       */
+/*   Updated: 2023/10/24 17:00:06 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,30 +52,27 @@ void	think(t_philo *philo, t_resource *rsc)
 
 }
 
-void	*philosopher(t_philo *philo)
-{
-	t_resource	*rsc;
-
-	rsc = rsc_instance();
-
-	/// philo dead
-	if (rsc->n_philos == 1)
-		return (0);
-	while (!rsc->funeral)
-	{
-		eat(philo, rsc);
-		jam(philo, rsc);
-		think(philo, rsc);
-	}
-
-}
-
 int	rightfork(int target_philo, int total_philos)
 {
 	int	res;
 
 	res = (target_philo + 1) % total_philos;
 	return (res);
+}
+
+t_philo	*set_philo(int id, pthread_mutex_t *r_fork, pthread_mutex_t *l_fort)
+{
+	t_philo	*this;
+
+	this = (t_philo *)malloc(sizeof(t_philo));
+	this->id = id;
+	this->r_fork = r_fork;
+	this->l_fork = l_fort;
+	this->s = none;
+	this->n_ate = 0;
+	this->t_last_meal = 0;
+	this->t_launch = 0;
+	return (this);
 }
 
 void	init_thread_mutex(t_resource *rsc, int n_philo)
@@ -85,7 +82,7 @@ void	init_thread_mutex(t_resource *rsc, int n_philo)
 	pthread_mutex_t	*right;
 
 	i = -1;
-	while (++i < 5)
+	while (++i < NUM_STATUS_MSGS)
 		pthread_mutex_init(rsc->printlock[i], NULL);
 	i = -1;
 	while (++i < n_philo)
@@ -100,9 +97,8 @@ void	init_thread_mutex(t_resource *rsc, int n_philo)
 		pthread_mutex_init(rsc->forks[rightfork(i, n_philo)], NULL);
 		left = rsc->forks[i];
 		right = rsc->forks[rightfork(i, n_philo)];
-		rsc->philos[i] = new_philo(i, left, right);
+		rsc->philos[i] = set_philo(i, left, right);
 	}
-	return ;
 }
 
 void	init_time_table(t_resource *rsc, int n_philo, int i, int ph_id)
@@ -128,20 +124,62 @@ t_resource	*init_rsc(int n_philo, int t_die, int t_eat, int t_jam)
 	rsc->time_die = t_die;
 	rsc->time_eat = t_eat;
 	rsc->time_jam = t_jam;
-	rsc->time_table = malloc(sizeof(int) * n_philo);
-	rsc->philos = malloc(sizeof(t_philo *) * n_philo);
-	rsc->philosophers = malloc(sizeof(pthread_t *) * n_philo);
-	rsc->forks = malloc(sizeof(pthread_mutex_t *) * n_philo);
+	rsc->time_table = (int *)malloc(sizeof(int) * n_philo);
+	rsc->philos = (t_philo **)malloc(sizeof(t_philo *) * n_philo);
+	rsc->philosophers = (pthread_t **)malloc(sizeof(pthread_t *) * n_philo);
+	rsc->forks = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t *) * n_philo);
 	init_time_table(rsc, n_philo, 0, 0);
 	i = -1;
 	while (++i < NUM_STATUS_MSGS)
 		rsc->printlock[i] = malloc(sizeof(pthread_mutex_t) * 1);
 	init_thread_mutex(rsc, n_philo);
+	return (rsc);
+}
+
+void	*death_occurrence(t_philo *philo)
+{
+	// make target philo die.
+	// print handler for death.
+}
+
+void	*lifecycle(t_philo *philo)
+{
+	t_resource	*rsc;
+
+	rsc = rsc_instance();
+	if (rsc->n_philos == 1)
+		return (death_occurrence(philo));
+	while (!rsc->funeral)
+	{
+		eat(philo, rsc);
+		jam(philo, rsc);
+		think(philo, rsc);
+	}
+}
+
+int	prepare_dining_table(t_resource *rsc)
+{
+	int	i;
+
+	i = -1;
+	while (++i < rsc->n_philos)
+	{
+		rsc->philos[i]->t_launch = ft_get_time();
+		rsc->philos[i]->t_last_meal = rsc->philos[i]->t_launch;
+		if (!pthread_create(rsc->philosophers[i], NULL,
+	(void *) lifecycle, rsc->philos[i]))
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
+void	status_checker()
+{
+
 }
 
 /// [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep]
 /// && [number_of_times_each_philosophers_must_eat]
-
 int main(int ac, char **av)
 {
 	t_resource	*rsc;
@@ -152,6 +190,17 @@ int main(int ac, char **av)
 		ft_atoi(av[3]), ft_atoi(av[4]));
 	if (ac == 6)
 		rsc->required_eat = ft_atoi(av[5]);
+	/// pthread_create (start), return (error)
+	if (!prepare_dining_table(rsc))
+		return (exit(1), 1);
+	/// while loop (philos alive)
+	while (!rsc->funeral && rsc->required_eat < 0)
+	{
+		status_checker();
+		usleep(100);
+	}
+	/// Join threads here
 
+	/// Free resources here
 	return (0);
 }
