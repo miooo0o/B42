@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/24 15:22:46 by minakim          ###   ########.fr       */
+/*   Updated: 2023/10/31 17:52:19 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,47 +19,25 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-// Limit Loop: use addition to while condition
-# define MAX_ITER	5000
+/// printlcok index enum
+# define NUM_MUTEX_LOGS 2
 
-// Prevent Heap mem leak: use addition to char or array
-# define DATA_SIZE	3072
-
-/// true/false
-
-# define TRUE 1
-# define FALSE 0
-
-/// tmp
-# define NUM_STATUS_MSGS 5
-typedef enum e_status
+typedef enum e_logtype
 {
-	none = 0,
-	eating,
-	jaming,
-	thinking,
-	death
-}	t_status;
+	log_status = 0,
+	log_next_update
+}	t_logtype;
 
-
-/// Boolean
-typedef enum e_bool
-{
-	false = 0,
-	true = 1
-}	t_bool;
-
+/// struct
 typedef struct s_philo
 {
 	int 			id;
 	int 			n_ate;
-	t_status 		s;
-	size_t			t_launch;
-	size_t			t_last_meal;
+	long long		t_creation;
+	long long		t_last_meal;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
 }					t_philo;
-
 
 typedef struct s_resource
 {
@@ -70,20 +48,36 @@ typedef struct s_resource
 	int				required_eat;
 	int				*time_table;
 	t_philo			**philos;
-	pthread_t		**philosophers;
+	pthread_t		**p_threads;
 	pthread_mutex_t	**forks;
-	pthread_mutex_t	*printlock[5];
+	pthread_mutex_t	*printlock[NUM_MUTEX_LOGS];
 	int				funeral;
 	int				*next;
 }					t_resource;
 
 /* philo.c */
+void	manage_dining(void);
 
+/* philo_init.c */
+t_resource	*rsc_instance(void);
+
+/* philo_resource.c */
+t_resource	*init_rsc(int n_philo, int t_die, int t_eat, int t_jam);
 
 /* philo_routine.c */
+void	eat(t_philo *philo, t_resource *rsc);
+void	jam(t_philo *philo, t_resource *rsc);
+void	think(t_philo *philo, t_resource *rsc);
+void	*death_occurrence(t_philo *philo);
 
 /* philo_util.c */
-int		check_valid_args(int ac, char **av);
-int		ft_atoi(const char *str);
-size_t	ft_get_time(void);
+int			valid_args(int ac, char **av);
+long long	ft_get_time(void);
+int			print_status(t_philo *philo, t_resource *rsc, char *str, int log);
+void		print_dead(t_philo *philo, t_resource *rsc);
+void		wait_for_turn(t_philo *philo, t_resource *rsc);
+void	join_threads(t_resource	*rsc);
+int			ft_error(char *s);
+void	free_rsc_arr(t_resource *rsc);
+void	free_resource(void);
 #endif
