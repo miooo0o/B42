@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 21:02:35 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/31 17:47:48 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/02 10:25:26 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	jam(t_philo *philo, t_resource *rsc)
 	long long	target_time;
 
 	target_time = rsc->time_jam + ft_get_time();
-	print_status(philo, rsc, "is sleeping", 0);
+	print_status(philo, rsc, "is sleeping", log_status);
 	while (target_time > ft_get_time())
 		usleep(100);
 	return ;
@@ -68,6 +68,6 @@ void	jam(t_philo *philo, t_resource *rsc)
 
 void	think(t_philo *philo, t_resource *rsc)
 {
-	print_status(philo, rsc, "is thinking", 0);
+	print_status(philo, rsc, "is thinking", log_status);
 	return ;
 }
