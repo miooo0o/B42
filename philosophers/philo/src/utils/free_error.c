@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:38:06 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/31 17:38:46 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/03 18:05:35 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ void	free_resource(void)
 	i = -1;
 	while (++i < NUM_MUTEX_LOGS)
 		pthread_mutex_destroy(rsc->printlock[i]);
+	while (++i < NUM_MUTEX_LOGS)
+		free(rsc->printlock[i]);
 	free(rsc->philos);
 	free(rsc->p_threads);
 	free(rsc->forks);
 	free(rsc->time_table);
 	i = -1;
-	while (++i < 5)
-		free(rsc->printlock[i]);
 	return ;
 }
 
@@ -53,8 +53,6 @@ int	ft_error(char *s)
 
 	printf("error: %s.\n", s);
 	rsc = rsc_instance();
-//	if (rsc != NULL)
-//		free()
 	exit(1);
 	return (1);
 }

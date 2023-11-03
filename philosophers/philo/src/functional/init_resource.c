@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:28:27 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/31 17:46:43 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/03 18:10:04 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void	setup_mutexes(t_resource *rsc, int n_philo)
 	i = -1;
 	while (++i < n_philo)
 	{
+		l_fork = NULL;
+		r_fork = NULL;
+//		pthread_mutex_init(rsc->forks[rightfork(i, n_philo)], NULL);
 		l_fork = rsc->forks[i];
 		r_fork = rsc->forks[rightfork(i, n_philo)];
 		rsc->philos[i] = set_philo(i, l_fork, r_fork);

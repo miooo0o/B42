@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:48:49 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/31 17:50:08 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/03 17:43:40 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	status_check(t_resource *rsc)
 	while (++i < rsc->n_philos)
 	{
 		time_since_last_meal = ft_get_time() - rsc->philos[i]->t_last_meal;
+//		printf("[%d] philo : last meal : %lld, time to die : %lld\n", i, time_since_last_meal, rsc->time_die);
 		if (time_since_last_meal > rsc->time_die)
 		{
 			print_dead(rsc->philos[i], rsc);

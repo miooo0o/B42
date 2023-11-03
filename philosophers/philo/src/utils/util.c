@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 20:36:48 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/31 17:02:21 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/03 17:36:31 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ long long	ft_get_time(void)
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (ft_error("gettimeofday fail"));
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	return ((long long)time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 int	print_status(t_philo *philo, t_resource *rsc, char *str, int log)
@@ -33,6 +33,7 @@ int	print_status(t_philo *philo, t_resource *rsc, char *str, int log)
 		printf("%lld %u %s\n", now, philo->id + 1, str);
 	}
 	pthread_mutex_unlock(rsc->printlock[log]);
+	return (now);
 }
 
 void	print_dead(t_philo *philo, t_resource *rsc)

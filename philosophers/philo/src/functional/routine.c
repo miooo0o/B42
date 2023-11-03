@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 21:02:35 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/02 10:25:26 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/03 17:44:31 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,14 @@ void	eat(t_philo *philo, t_resource *rsc)
 	pthread_mutex_lock(philo->r_fork);
 	print_status(philo, rsc, "has taken a fork", log_status);
 	update_next_entry(rsc);
+	print_status(philo, rsc, "is eating", log_status);
 	time_to_eat = rsc->time_eat + philo->t_last_meal;
+//	printf("update time to me as %lld\n", time_to_eat);
 	while (time_to_eat > ft_get_time())
 		usleep(100);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
+	philo->t_last_meal = time_to_eat;
 	philo->n_ate++;
 }
 
