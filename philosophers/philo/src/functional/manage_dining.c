@@ -53,7 +53,7 @@ int	status_check(t_resource *rsc)
 	long long		time_since_last_meal;
 	pthread_mutex_t	*printlock;
 
-	printlock = rsc->printlock[log_status];
+	printlock = rsc->printlock[LOG_STATUS];
 	pthread_mutex_lock(printlock);
 	i = -1;
 	while (++i < rsc->n_philos)

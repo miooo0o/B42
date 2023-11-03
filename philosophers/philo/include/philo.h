@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/31 17:52:19 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/03 18:21:36 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 typedef enum e_logtype
 {
-	log_status = 0,
-	log_next_update
+	LOG_STATUS = 0,
+	LOG_NEXT_UPDATE
 }	t_logtype;
 
 /// struct

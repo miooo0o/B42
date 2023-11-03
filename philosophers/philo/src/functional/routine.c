@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 21:02:35 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/03 17:44:31 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/03 18:20:07 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	*death_occurrence(t_philo *philo)
 {
 	pthread_mutex_lock(philo->l_fork);
-	print_status(philo, rsc_instance(), "has taken a fork", log_status);
+	print_status(philo, rsc_instance(), "has taken a fork", LOG_STATUS);
 
 	pthread_mutex_unlock(philo->l_fork);
 	return (NULL);
@@ -29,11 +29,11 @@ void	update_next_entry(t_resource *rsc)
 	int			last_index;
 
 	last_index = rsc->n_philos - 1;
-	pthread_mutex_lock(rsc->printlock[log_next_update]);
+	pthread_mutex_lock(rsc->printlock[LOG_NEXT_UPDATE]);
 	rsc->next = &(rsc->time_table[++i]);
 	if (i >= last_index)
 		i = RESET_INDEX;
-	pthread_mutex_unlock(rsc->printlock[log_next_update]);
+	pthread_mutex_unlock(rsc->printlock[LOG_NEXT_UPDATE]);
 }
 
 void	eat(t_philo *philo, t_resource *rsc)
@@ -43,11 +43,11 @@ void	eat(t_philo *philo, t_resource *rsc)
 	time_to_eat = 0;
 
 	pthread_mutex_lock(philo->l_fork);
-	print_status(philo, rsc, "has taken a fork", log_status);
+	print_status(philo, rsc, "has taken a fork", LOG_STATUS);
 	pthread_mutex_lock(philo->r_fork);
-	print_status(philo, rsc, "has taken a fork", log_status);
+	print_status(philo, rsc, "has taken a fork", LOG_STATUS);
 	update_next_entry(rsc);
-	print_status(philo, rsc, "is eating", log_status);
+	print_status(philo, rsc, "is eating", LOG_STATUS);
 	time_to_eat = rsc->time_eat + philo->t_last_meal;
 //	printf("update time to me as %lld\n", time_to_eat);
 	while (time_to_eat > ft_get_time())
@@ -63,7 +63,7 @@ void	jam(t_philo *philo, t_resource *rsc)
 	long long	target_time;
 
 	target_time = rsc->time_jam + ft_get_time();
-	print_status(philo, rsc, "is sleeping", log_status);
+	print_status(philo, rsc, "is sleeping", LOG_STATUS);
 	while (target_time > ft_get_time())
 		usleep(100);
 	return ;
@@ -71,6 +71,6 @@ void	jam(t_philo *philo, t_resource *rsc)
 
 void	think(t_philo *philo, t_resource *rsc)
 {
-	print_status(philo, rsc, "is thinking", log_status);
+	print_status(philo, rsc, "is thinking", LOG_STATUS);
 	return ;
 }
