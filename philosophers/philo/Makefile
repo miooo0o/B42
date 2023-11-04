@@ -3,6 +3,7 @@ CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g
 RM			= rm
 AR			= ar -rc
+SANITIZE	= -fsanitize=thread
 
 MAKEFLAGS	+= --silent
 # -r : replace or add the specified files to the archive.
@@ -27,7 +28,7 @@ OBJS		=	$(patsubst $(SRCS_DIR)%.c,$(OBJS_DIR)%.o,$(SRCS))
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(SANITIZE)
 #			@$(foreach dir,$(LIB_DIR),make -C $(dir);)
 			@#$(CC) $(CFLAGS) $(OBJS) $(LIB_PATH) -o $(NAME)
 

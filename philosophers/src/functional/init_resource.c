@@ -6,11 +6,11 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:28:27 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/03 18:10:04 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/04 16:47:44 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../philo.h"
 
 int	rightfork(int target_philo, int total_philos)
 {
@@ -42,7 +42,7 @@ void	setup_mutexes(t_resource *rsc, int n_philo)
 
 	i = -1;
 	while (++i < NUM_MUTEX_LOGS)
-		pthread_mutex_init(rsc->printlock[i], NULL);
+		pthread_mutex_init(rsc->m_lock[i], NULL);
 	i = -1;
 	while (++i < n_philo)
 	{
@@ -100,15 +100,15 @@ t_resource	*init_rsc(int n_philo, int t_die, int t_eat, int t_jam)
 	init_time_table(rsc, n_philo);
 	i = -1;
 	while (++i < NUM_MUTEX_LOGS)
-		rsc->printlock[i] = malloc(sizeof(pthread_mutex_t) * 1);
+		rsc->m_lock[i] = malloc(sizeof(pthread_mutex_t) * 1);
 	setup_mutexes(rsc, n_philo);
 
 	/// TODO: it is test function, del later
-	i = -1;
-	printf("time table :");
-	while (++i < rsc->n_philos)
-		printf("[%d] ", rsc->time_table[i]);
-	printf("\n");
+//	i = -1;
+//	printf("time table :");
+//	while (++i < rsc->n_philos)
+//		printf("[%d] ", rsc->time_table[i]);
+//	printf("\n");
 
 	rsc->next = &(rsc->time_table[0]);
 	return (rsc);

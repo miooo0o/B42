@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../philo.h"
 
 #define RESET_INDEX -1
 
@@ -29,11 +29,11 @@ void	update_next_entry(t_resource *rsc)
 	int			last_index;
 
 	last_index = rsc->n_philos - 1;
-	pthread_mutex_lock(rsc->printlock[LOG_NEXT_UPDATE]);
+	pthread_mutex_lock(rsc->m_lock[LOG_NEXT_UPDATE]);
 	rsc->next = &(rsc->time_table[++i]);
 	if (i >= last_index)
 		i = RESET_INDEX;
-	pthread_mutex_unlock(rsc->printlock[LOG_NEXT_UPDATE]);
+	pthread_mutex_unlock(rsc->m_lock[LOG_NEXT_UPDATE]);
 }
 
 void	eat(t_philo *philo, t_resource *rsc)

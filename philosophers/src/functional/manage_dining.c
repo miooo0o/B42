@@ -6,11 +6,11 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:48:49 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/03 17:43:40 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/04 17:00:35 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../philo.h"
 
 void	*lifecycle(t_philo *philo)
 {
@@ -21,7 +21,16 @@ void	*lifecycle(t_philo *philo)
 		return (death_occurrence(philo));
 	while (!rsc->funeral)
 	{
-		wait_for_turn(philo, rsc);
+		pthread_mutex_lock();
+		if (philo->id != *(rsc->next))
+		{
+			usleep(10);
+			pthread_mutex_unlock();
+			continue ;
+		}
+		pthread_mutex_unlock();
+
+//		wait_for_turn(philo, rsc);
 		eat(philo, rsc);
 		if (philo->n_ate == rsc->required_eat)
 			break ;
@@ -53,7 +62,7 @@ int	status_check(t_resource *rsc)
 	long long		time_since_last_meal;
 	pthread_mutex_t	*printlock;
 
-	printlock = rsc->printlock[LOG_STATUS];
+	printlock = rsc->m_lock[LOG_STATUS];
 	pthread_mutex_lock(printlock);
 	i = -1;
 	while (++i < rsc->n_philos)

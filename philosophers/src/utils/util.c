@@ -6,13 +6,13 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 20:36:48 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/03 17:36:31 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/04 18:10:12 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../philo.h"
 
-long long	ft_get_time(void)
+time_t	ft_get_time(void)
 {
 	struct timeval	time;
 
@@ -26,13 +26,13 @@ int	print_status(t_philo *philo, t_resource *rsc, char *str, int log)
 	long long	now;
 
 	now = 0;
-	pthread_mutex_lock(rsc->printlock[log]);
+	pthread_mutex_lock(rsc->m_lock[log]);
 	if (!rsc->funeral)
 	{
 		now = ft_get_time() - philo->t_creation;
 		printf("%lld %u %s\n", now, philo->id + 1, str);
 	}
-	pthread_mutex_unlock(rsc->printlock[log]);
+	pthread_mutex_unlock(rsc->m_lock[log]);
 	return (now);
 }
 
