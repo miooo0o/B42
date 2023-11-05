@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "../../philo_old.h"
 
 void	free_rsc_arr(t_resource *rsc)
 {

@@ -29,7 +29,7 @@ int	ft_atoi(const char *str)
 		str++;
 	while (ft_isdigit(*str))
 	{
-		result *= 10 + (*str - '0');
+		result = result * 10 + (*str - '0');
 		str++;
 	}
 	if (result > 2147483647)
@@ -37,10 +37,15 @@ int	ft_atoi(const char *str)
 	return ((int)result);
 }
 
-int	ft_error(char *s)
+void	*ft_memalloc(size_t size)
 {
-	printf("error: %s.\n", s);
-	exit(1);
+	void	*temp;
+
+	temp = (void *)malloc(size);
+	if (!temp)
+		return (NULL);
+	memset(temp, 0, size);
+	return (temp);
 }
 
 /// @note work with ft_is functions
@@ -55,4 +60,9 @@ int ft_all_satisfy(int (*f)(char c), char *s)
 		s++;
 	}
 	return (1);
+}
+
+int ft_iseven(int number)
+{
+	return (number % 2 == 0);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "../../philo_old.h"
 
 int	rightfork(int target_philo, int total_philos)
 {

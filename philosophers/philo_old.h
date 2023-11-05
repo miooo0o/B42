@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/04 16:56:48 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/05 16:59:02 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef enum e_logtype
 typedef struct s_philo
 {
 	int 			id;
+	int 			num_type;
 	int 			n_ate;
 	long long		t_creation;
 	long long		t_last_meal;
@@ -72,7 +73,7 @@ void	think(t_philo *philo, t_resource *rsc);
 void	*death_occurrence(t_philo *philo);
 
 /* philo_util.c */
-int			valid_args(int ac, char **av);
+int			config_handler_from_args(int ac, char **av);
 time_t	ft_get_time(void);
 int			print_status(t_philo *philo, t_resource *rsc, char *str, int log);
 void		print_dead(t_philo *philo, t_resource *rsc);

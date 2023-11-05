@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_old.h"
 # define TRUE 1
 
 /// [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep]

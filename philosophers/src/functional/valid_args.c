@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo.h"
+#include "../../philo_old.h"
 
 #define ERROR_INVALID_ARGS 0
 #define ERROR_VALUE_LARGE -1
