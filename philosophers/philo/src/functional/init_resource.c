@@ -6,11 +6,11 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:28:27 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/04 16:47:44 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/06 19:46:56 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo_old.h"
+#include "../../include/philo.h"
 
 int	rightfork(int target_philo, int total_philos)
 {
@@ -55,7 +55,6 @@ void	setup_mutexes(t_resource *rsc, int n_philo)
 	{
 		l_fork = NULL;
 		r_fork = NULL;
-//		pthread_mutex_init(rsc->forks[rightfork(i, n_philo)], NULL);
 		l_fork = rsc->forks[i];
 		r_fork = rsc->forks[rightfork(i, n_philo)];
 		rsc->philos[i] = set_philo(i, l_fork, r_fork);
@@ -97,6 +96,7 @@ t_resource	*init_rsc(int n_philo, int t_die, int t_eat, int t_jam)
 	rsc->philos = (t_philo **)malloc(sizeof(t_philo *) * n_philo);
 	rsc->p_threads = (pthread_t **)malloc(sizeof(pthread_t *) * n_philo);
 	rsc->forks = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t *) * n_philo);
+	rsc->m_lock = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t *) * NUM_MUTEX_LOGS);
 	init_time_table(rsc, n_philo);
 	i = -1;
 	while (++i < NUM_MUTEX_LOGS)
@@ -104,11 +104,11 @@ t_resource	*init_rsc(int n_philo, int t_die, int t_eat, int t_jam)
 	setup_mutexes(rsc, n_philo);
 
 	/// TODO: it is test function, del later
-//	i = -1;
-//	printf("time table :");
-//	while (++i < rsc->n_philos)
-//		printf("[%d] ", rsc->time_table[i]);
-//	printf("\n");
+	i = -1;
+	printf("time table :");
+	while (++i < rsc->n_philos)
+		printf("[%d] ", rsc->time_table[i]);
+	printf("\n");
 
 	rsc->next = &(rsc->time_table[0]);
 	return (rsc);

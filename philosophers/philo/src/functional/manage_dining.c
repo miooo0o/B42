@@ -6,34 +6,39 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:48:49 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/04 17:00:35 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/06 20:19:23 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo_old.h"
+#include "../../include/philo.h"
 
 void	*lifecycle(t_philo *philo)
 {
 	t_resource	*rsc;
+	pthread_mutex_t	* hold;
 
 	rsc = rsc_instance();
+	hold = rsc->m_lock[L_HOLD];
+
 	if (rsc->n_philos == 1)
 		return (death_occurrence(philo));
+	pthread_mutex_lock(rsc->m_lock[L_START]);
+	pthread_mutex_unlock(rsc->m_lock[L_START]);
 	while (!rsc->funeral)
 	{
-		pthread_mutex_lock();
 		if (philo->id != *(rsc->next))
 		{
 			usleep(10);
-			pthread_mutex_unlock();
 			continue ;
 		}
-		pthread_mutex_unlock();
-
-//		wait_for_turn(philo, rsc);
 		eat(philo, rsc);
+		pthread_mutex_lock(hold);
 		if (philo->n_ate == rsc->required_eat)
+		{
+			pthread_mutex_unlock(hold);
 			break ;
+		}
+		pthread_mutex_unlock(hold);
 		jam(philo, rsc);
 		think(philo, rsc);
 	}
@@ -62,13 +67,12 @@ int	status_check(t_resource *rsc)
 	long long		time_since_last_meal;
 	pthread_mutex_t	*printlock;
 
-	printlock = rsc->m_lock[LOG_STATUS];
+	printlock = rsc->m_lock[L_PRINT];
 	pthread_mutex_lock(printlock);
 	i = -1;
 	while (++i < rsc->n_philos)
 	{
 		time_since_last_meal = ft_get_time() - rsc->philos[i]->t_last_meal;
-//		printf("[%d] philo : last meal : %lld, time to die : %lld\n", i, time_since_last_meal, rsc->time_die);
 		if (time_since_last_meal > rsc->time_die)
 		{
 			print_dead(rsc->philos[i], rsc);

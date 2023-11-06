@@ -10,9 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../../philo.h"
 
 #define ERROR_VALUE_LARGE -1
+
+void	init_time_table(t_config *conf, int n_philo)
+{
+	int	i;
+	int	ph_id;
+
+	i = -1;
+	ph_id = 0;
+	while (ph_id < n_philo)
+	{
+		conf->time_table[++i] = ph_id;
+		ph_id += 2;
+	}
+	ph_id = 1;
+	while (ph_id < n_philo)
+	{
+		conf->time_table[++i] = ph_id;
+		ph_id += 2;
+	}
+	return ;
+}
+
 
 int check_args(int max, char **av, int val[5])
 {
@@ -41,14 +63,14 @@ pthread_mutex_t	**init_mutexes(int count)
 
 	target = ft_memalloc(sizeof(pthread_mutex_t *) * count);
 	if (target == NULL)
-		return (ft_error_type(MALLOC), NULL);
+		return (ft_error_type(ERROR_MALLOC), NULL);
 	i = -1;
 	while (++i < count)
 	{
 		target[i] = ft_memalloc(sizeof(pthread_mutex_t));
 		if (target[i] == NULL)
-			return (ft_error_type(MALLOC), NULL);
-		else if (check(pthread_mutex_init(target[i], NULL), THREAD_INIT) != 0)
+			return (ft_error_type(ERROR_MALLOC), NULL);
+		else if (check(pthread_mutex_init(target[i], NULL), ERROR_THREAD_INIT) != 0)
 			return (NULL);
 	}
 	return (target);
@@ -70,7 +92,6 @@ t_config	*conf_instance(void)
 	.death_occurs = NONE,
 	.forks = NULL,
 	.locks = NULL,
-	.start_flag = 0
 	};
 	is_init = 1;
 	return (&this);
@@ -91,14 +112,13 @@ t_config	*init_handler(const int ac, const int val[5])
 	if (ac == 6)
 		conf->required_eat = val[4];
 	/// init mutex @note 아직 뮤텍스 함수 완료하지 못함.
+	conf->time_table = (int *)ft_memalloc(sizeof(int) * conf->n_philos);
+	init_time_table(conf, conf->n_philos);
+	conf->next = &conf->time_table[0];
 	conf->forks = init_mutexes(conf->n_philos);
 	conf->locks = init_mutexes(LOCKTYPE_COUNT);
 	if (conf->forks == NULL || conf->locks == NULL)
 		return (NULL);
-	if (conf->locks[MUTEX_LOCK])
-		printf("here is mutex\n");
-	else
-		printf("here is no mutex\n");
 	return (conf);
 }
 

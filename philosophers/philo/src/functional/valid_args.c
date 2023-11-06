@@ -6,11 +6,11 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:49:59 by minakim           #+#    #+#             */
-/*   Updated: 2023/10/31 19:30:19 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/06 19:39:40 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../philo_old.h"
+#include "../../include/philo.h"
 
 #define ERROR_INVALID_ARGS 0
 #define ERROR_VALUE_LARGE -1
@@ -35,22 +35,6 @@ int	ft_atoi_philo(const char *str)
 	return ((int)result);
 }
 
-int	ft_isdigit(const char *s)
-{
-	int	i;
-
-	if (s == NULL)
-		ft_error("empty");
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (!(s[i] >= '0' && s[i] <= '9'))
-			return (ERROR_INVALID_ARGS);
-		i++;
-	}
-	return (VALIDED_ARGS);
-}
-
 int	check_args(int max, char **av, int val[6])
 {
 	int	i;
@@ -58,11 +42,11 @@ int	check_args(int max, char **av, int val[6])
 	i = 0;
 	while (++i < max)
 	{
-		if (!ft_isdigit(av[i]))
-			ft_error("non-digit value");
+		if (!ft_all_satisfy(ft_isdigit, av[i]))
+			return (0);
 		val[i] = ft_atoi_philo(av[i]);
 		if (val[i] == ERROR_VALUE_LARGE)
-			ft_error("too large value");
+			return (0);
 	}
 	return (VALIDED_ARGS);
 }

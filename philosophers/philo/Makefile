@@ -28,7 +28,9 @@ OBJS		=	$(patsubst $(SRCS_DIR)%.c,$(OBJS_DIR)%.o,$(SRCS))
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(SANITIZE)
+#			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(SANITIE)
+
 #			@$(foreach dir,$(LIB_DIR),make -C $(dir);)
 			@#$(CC) $(CFLAGS) $(OBJS) $(LIB_PATH) -o $(NAME)
 

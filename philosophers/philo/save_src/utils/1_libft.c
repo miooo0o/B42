@@ -1,5 +1,5 @@
 
-#include "philo.h"
+#include "../../../philo.h"
 
 #define ERROR_VALUE_LARGE -1
 

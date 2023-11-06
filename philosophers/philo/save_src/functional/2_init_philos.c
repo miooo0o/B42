@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../../../philo.h"
 
 t_numbertype determine_numtype(int num)
 {
@@ -29,14 +29,15 @@ t_philo	*init_per_philo(t_config *conf, int id, pthread_mutex_t *r_fork, pthread
 	each->id = id;
 	each->num_type = determine_numtype(id);
 	each->n_ate = 0;
-	each->t_creation = 0;
-	each->t_last_meal = 0;
+	each->t_creation = ft_get_time();
+	each->t_last_meal = ft_get_time();
 	each->r_fork = r_fork;
 	each->l_fork = l_fort;
 	each->start_flag = conf->locks[LOCK_START];
 	each->status = NONE;
 	return (each);
 }
+
 
 t_philo	**init_philos(t_config *conf)
 {
