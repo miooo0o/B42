@@ -1,4 +1,4 @@
-#include "../../../philo.h"
+#include "../../philo_2.h"
 
 int	print_status(t_philo *philo, pthread_mutex_t *lock_print, char *str)
 {

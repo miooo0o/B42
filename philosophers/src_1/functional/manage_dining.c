@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/philo.h"
+#include "philo.h"
 
 void	*lifecycle(t_philo *philo)
 {

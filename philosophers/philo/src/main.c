@@ -1,52 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 14:58:56 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/06 19:34:56 by minakim          ###   ########.fr       */
+/*   Created: 2023/11/07 12:20:19 by minakim           #+#    #+#             */
+/*   Updated: 2023/11/07 17:09:38 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
-# define TRUE 1
+#include "philo.h"
 
-/// [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep]
-/// && [number_of_times_each_philosophers_must_eat]
-int main(int ac, char **av)
+t_rsc	*rsc_instance(void)
 {
-	t_resource	*rsc;
-
-	if (!valid_args(ac, av))
-		return (0);
-	manage_dining();
-	return (0);
-}
-
-///
-t_resource	*rsc_instance(void)
-{
-	static t_resource	this;
+	static t_rsc		this;
 	static int			is_init;
 
 	if (is_init)
 		return (&this);
-	this = (t_resource){
-			.n_philos = 0,
-			.time_die = 0,
-			.time_eat = 0,
-			.time_jam = 0,
-			.required_eat = -1,
-			.time_table = NULL,
-			.next = NULL,
-			.philos = NULL,
-			.p_threads = NULL,
-			.forks = NULL,
-			.m_lock = NULL,
-			.funeral = 0,
+	this = (t_rsc){
+		.n_philos = 0,
+		.time_die = 0,
+		.time_eat = 0,
+		.time_jam = 0,
+		.required_meal = 0,
+		.status = RUNNING,
+		.locks = NULL,
+		.forks = NULL
 	};
 	is_init = TRUE;
 	return (&this);
+}
+
+int	main(int argc, char **argv)
+{
+	t_philo **philos;
+	t_rsc	*rsc;
+
+	if (!valid_args(argc, argv) || !init_rsc())
+		return (1);
+	rsc = rsc_instance();
+	philos = init_philos(rsc);
+
+	/// <<< start threads here
+	philosopers(philos);
+	return (0);
+
 }

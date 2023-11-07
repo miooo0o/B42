@@ -1,4 +1,4 @@
-#include "../../../philo.h"
+#include "../../philo_2.h"
 
 t_numbertype determine_numtype(int num)
 {

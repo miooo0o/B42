@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/06 20:18:24 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/07 17:27:11 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,78 +18,94 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <string.h>
+
+# define SET_NONE -1
+# define NUM_LOCKS 5
 
 /// printlcok index enum
-# define NUM_MUTEX_LOGS 7
-
-#define ERROR_VALUE_LARGE -1
-
-typedef enum e_locktype
-{
-	L_PRINT = 0,
-	L_NEXT_UPDATE,
-	L_MEAL,
-	L_HOLD,
-	L_TIME,
-	L_START
+typedef enum e_locktype {
+	LOCK_WRITE = 0,
+	LOCK_TIME_TABLE,
+	LOCK_MEAL_STATE,
+	LOCK_PROG_STATUS
 }	t_locktype;
 
-/// struct
-typedef struct s_philo
-{
+typedef enum e_mealflag {
+	AWAY = 0,
+	EATING,
+	HUNGRY,
+	FULL /// @note finish n_time_meals
+} t_mealflag;
+
+typedef enum e_bool {
+	FALSE = 0,
+	TRUE,
+} t_bool;
+
+typedef enum e_status {
+	RUNNING,
+	FUNERAL,
+	FINISH
+} t_status;
+
+typedef struct s_philo {
 	int 			id;
-	int 			num_type;
-	int 			n_ate;
-	long long		t_creation;
-	long long		t_last_meal;
+	pthread_t		*thread;
+	t_bool			is_death;
+	t_mealflag		meal_state;
+	int				n_eat;
+	time_t			last_meal;
+	time_t			creation;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
-}					t_philo;
+}			t_philo;
 
-typedef struct s_resource
-{
-	int				n_philos;
-	long long		time_die;
-	long long		time_eat;
-	long long		time_jam;
-	int				required_eat;
-	int				*time_table;
-	t_philo			**philos;
-	pthread_t		**p_threads;
+typedef struct s_rsc {
+	int			n_philos;
+	time_t		time_die;
+	time_t		time_eat;
+	time_t		time_jam;
+	int			required_meal;
+	t_status	status;
+	int			*time_table;
+	int			*next;
+	pthread_mutex_t	**locks;
 	pthread_mutex_t	**forks;
-	pthread_mutex_t **m_lock;
-	int				funeral;
-	int				*next;
-}					t_resource;
+}	t_rsc;
 
-/* philo.c */
-void	manage_dining(void);
+/// @file
+t_rsc	*rsc_instance(void);
+int		init_rsc(void);
 
-/* philo_init.c */
-t_resource	*rsc_instance(void);
+/// @file
+t_philo	**init_philos(t_rsc	*rsc);
 
-/* philo_resource.c */
-t_resource	*init_rsc(int n_philo, int t_die, int t_eat, int t_jam);
+/// @file utils, libft.c
+int		ft_atoi(const char *str);
+void	*ft_memalloc(size_t size);
+int		ft_isdigit(const char c);
+int		ft_isspace(const char c);
+int		ft_all_satisfy(int (*f)(char c), char *s);
 
-/* philo_routine.c */
-void	eat(t_philo *philo, t_resource *rsc);
-void	jam(t_philo *philo, t_resource *rsc);
-void	think(t_philo *philo, t_resource *rsc);
-void	*death_occurrence(t_philo *philo);
+/// @file utils, utils.c
+pthread_mutex_t	**init_mutexes(int count);
+time_t			get_time(void);
+void			print_msg(t_philo *philo, char *msg);
 
-/* philo_util.c */
-int			config_handler_from_args(int ac, char **av);
-time_t	ft_get_time(void);
-int			print_status(t_philo *philo, t_resource *rsc, char *str, int log);
-void		print_dead(t_philo *philo, t_resource *rsc);
-void		wait_for_turn(t_philo *philo, t_resource *rsc);
-void	join_threads(t_resource	*rsc);
-int	ft_error(const char *msg);
-void	free_rsc_arr(t_resource *rsc);
-void	free_resource(void);
+/// @file utils, error.c
+int	ft_error_msg(const char *msg);
 
-int	ft_isdigit(const char c);
-/// @note work with ft_is functions
-int ft_all_satisfy(int (*f)(char c), char *s);
-int	valid_args(int ac, char **av);
+/// @file utils, free.c
+void	*ft_free_till_index(void **target, int index);
+void	ft_free(void *target);
+void	ft_free_2d(void **target);
+
+/// @file functional, vaild_input.c
+int valid_args(int argc, char **argv);
+
+void	*monitor(void *ptr);
+
+int	is_running(t_rsc *rsc, t_philo *philo);
+int	philosopers(t_philo **philos);
 #endif

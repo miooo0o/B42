@@ -1,5 +1,5 @@
 
-#include "../../../philo.h"
+#include "../../philo_2.h"
 
 char	*print_error_type(t_errortype type)
 {

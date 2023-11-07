@@ -1,4 +1,4 @@
-#include "../../../philo.h"
+#include "../../philo_2.h"
 
 int lock_and_unlock(t_errortype type)
 {

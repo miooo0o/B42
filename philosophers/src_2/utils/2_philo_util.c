@@ -1,4 +1,4 @@
-#include "../../../philo.h"
+#include "../../philo_2.h"
 
 long long	ft_get_time(void)
 {

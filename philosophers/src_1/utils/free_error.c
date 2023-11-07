@@ -6,11 +6,11 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:38:06 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/04 18:28:40 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/07 11:59:59 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/philo.h"
+#include "philo.h"
 
 void	free_rsc_arr(t_resource *rsc)
 {

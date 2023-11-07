@@ -1,5 +1,5 @@
 
-#include "../../../philo.h"
+#include "../../philo_2.h"
 
 #define ERROR_VALUE_LARGE -1
 
@@ -60,9 +60,4 @@ int ft_all_satisfy(int (*f)(char c), char *s)
 		s++;
 	}
 	return (1);
-}
-
-int ft_iseven(int number)
-{
-	return (number % 2 == 0);
 }
