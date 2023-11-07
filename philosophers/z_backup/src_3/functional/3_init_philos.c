@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../../philo_3.h"
 
 int	rightfork(int target_philo, int total_philos)
 {
@@ -16,11 +16,10 @@ t_philo	*init_per_philo(int id, pthread_mutex_t *r_fork, pthread_mutex_t *l_fort
 	if (!each->thread)
 		return (free(each), NULL);
 	each->id = id;
-	each->creation = 0;
-	each->last_meal = 0;
+	each->creation = get_time();
+	each->last_meal = get_time();
 	each->n_eat = 0;
-	each->is_death = SET_NONE;
-	each->meal_state = AWAY;
+	each->meal_state = STATE_AWAY;
 	each->r_fork = r_fork;
 	each->l_fork = l_fort;
 	return (each);

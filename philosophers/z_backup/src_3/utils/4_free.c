@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../../philo_3.h"
 
 void	*ft_free_till_index(void **target, int index)
 {

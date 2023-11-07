@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../../philo_3.h"
 
 int time_to_die_reached(t_philo *philo)
 {
@@ -28,8 +28,8 @@ int is_funeral(t_philo **philo)
 		pthread_mutex_lock(rsc->locks[LOCK_PROG_STATUS]);
 		if (time_to_die_reached(philo[i]))
 		{
-			philo[i]->is_death = TRUE;
-			rsc->status = FUNERAL;
+			rsc->status = STSTUS_FINISH;
+			print_msg(philo[i], "died");
 			pthread_mutex_unlock(rsc->locks[LOCK_PROG_STATUS]);
 			return (1);
 		}
@@ -54,15 +54,14 @@ int is_all_eaten(t_philo **philo)
 	while (++i < n_philos)
 	{
 		pthread_mutex_lock(rsc->locks[LOCK_MEAL_STATE]);
-		if (philo[i]->meal_state == FULL)
+		if (philo[i]->meal_state == STATE_FULL)
 			full_stomach++;
 		pthread_mutex_unlock(rsc->locks[LOCK_MEAL_STATE]);
 	}
 	if (full_stomach == n_philos)
 	{
 		pthread_mutex_lock(rsc->locks[LOCK_PROG_STATUS]);
-		rsc->status = FINISH;
-		print_msg(philo[i], "finished");
+		rsc->status = STSTUS_FINISH;
 		/// @note add printf?
 		pthread_mutex_unlock(rsc->locks[LOCK_PROG_STATUS]);
 		return (1);
@@ -75,6 +74,7 @@ void	*monitor(void *ptr)
 	t_philo	**philos;
 
 	philos = (t_philo **)ptr;
+	t_rsc	*rsc = rsc_instance();
 	while (1)
 	{
 		if (is_funeral(philos) || is_all_eaten(philos))

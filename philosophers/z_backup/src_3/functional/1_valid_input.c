@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../../philo_3.h"
 
 int check_args(int max, char **argv, int val[5])
 {

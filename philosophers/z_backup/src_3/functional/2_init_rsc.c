@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../../philo_3.h"
 
 int	*init_time_table(t_rsc *rsc, int n_philo)
 {
@@ -33,7 +33,7 @@ int init_rsc(void)
 
 	rsc = rsc_instance();
 	num = rsc->n_philos;
-	rsc->status = RUNNING;
+	rsc->status = STATUS_RUNNING;
 	rsc->time_table = init_time_table(rsc, num);
 	rsc->forks = init_mutexes(num);
 	rsc->locks = init_mutexes(NUM_LOCKS);

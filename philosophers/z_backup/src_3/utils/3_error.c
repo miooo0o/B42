@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../../philo_3.h"
 
 int	ft_error_msg(const char *msg)
 {
