@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/08 00:05:40 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/12 20:45:38 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,61 +21,52 @@
 # include <string.h>
 
 typedef enum e_bool{
-	FALSE = 0,
+	NONE_SET = -1,
+	FALSE,
 	TRUE
 }	t_bool;
 
-typedef enum e_mealstate {
-	STATE_AWAY = 0,
-	STATE_FULL /// @note finish n_time_meals
-} t_mealstate;
+typedef enum e_steps {
+	EAT,
+	SLEEP,
+	THINK,
+	DIE,
+	FORK
+} t_steps;
 
-typedef enum e_status {
-	NONE = 0,
-	EATING,
-	NON_EATING
-} t_status;
-
-typedef enum e_side{
+typedef enum e_side {
 	RIGHT = 0,
 	LEFT
 }	t_side;
 
-typedef struct s_fork {
-	pthread_mutex_t	*lock;
-	t_bool			is_holdable;
-} 	t_fork;
+typedef enum e_res{
+	SUCCESS,
+	MEM_ERROR,
+	INIT_ERROR,
+	INPUT_VALID_ERROR,
+}	t_res;
 
 typedef struct s_arg {
 	int			n_philos;
-	time_t		time_die;
-	time_t		time_eat;
-	time_t		time_jam;
-	int			required_meal;
+	long long	time_die;
+	long long	time_eat;
+	long long	time_jam;
+	long long	creation_time;
+	int			required_n_meals;
 }	t_arg;
 
 typedef struct s_philo {
-	pthread_t		*tid; /// address
-	int 			id;
-	int				eat_cnt;
-	time_t			time_created;
-	t_fork			forks[2]; /// address
-	t_arg			arg;
+	int 		id;
+	t_arg		*args;
+	t_steps		step;
+	t_bool		is_alive;
+	int			eat_cnt;
+	long long	last_meal;
+} t_philo;
+
+typedef struct s_mutex {
+	pthread_mutex_t	;
 };
-
-#define NUM_LOCKS 4
-
-typedef struct s_lock {
-	pthread_mutex_t read_lock;
-	pthread_mutex_t write_lock;
-}	t_lock;
-
-
-typedef struct s_rsc {
-	t_fork		*forks;
-	pthread_t	*philos;
-}	t_rsc;
-
 
 /// @file utils, libft.c
 int		ft_atoi(const char *str);
@@ -88,6 +79,9 @@ int		ft_all_satisfy(int (*f)(char c), char *s);
 pthread_mutex_t	*init_mutexes(int count);
 time_t			ft_gettime(void);
 void			ft_usleep(time_t time);
+
+int		writer(long *dest, const long *src);
+long	reader(const long *target);
 
 /// @file utils, error.c
 int	ft_error_msg(const char *msg);
