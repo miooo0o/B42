@@ -1,21 +1,24 @@
 #include "philo.h"
 
-pthread_mutex_t	*init_mutexes(int count)
+t_exit	init_arr_m_mutex(int count, t_mutex **target)
 {
-	int i;
-	pthread_mutex_t	*target;
+	int		i;
+	t_mutex	*this;
 
-	target = ft_memalloc(sizeof(pthread_mutex_t) * count);
-	if (target == NULL)
-		return (NULL);
+	this = NULL;
+	this = ft_memalloc(sizeof(t_mutex) * count);
+	if (this == NULL)
+		return (MEM_ERROR);
 	i = -1;
 	while (++i < count)
 	{
-		if (pthread_mutex_init(target, NULL) != 0)
-			return (NULL);
+		if (pthread_mutex_init(&this[i], NULL) != 0)
+			return (free(this), INIT_ERROR);
 	}
-	return (target);
+	*target = this;
+	return (SUCCESS);
 }
+
 
 time_t	ft_gettime(void)
 {

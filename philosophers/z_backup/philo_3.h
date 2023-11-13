@@ -74,7 +74,7 @@ typedef struct s_rsc {
 }	t_rsc;
 
 /// @file
-t_rsc	*rsc_instance(void);
+t_rsc	*instance(void);
 int		init_rsc(void);
 
 /// @file
@@ -88,7 +88,7 @@ int		ft_isspace(const char c);
 int		ft_all_satisfy(int (*f)(char c), char *s);
 
 /// @file utils, utils.c
-pthread_mutex_t	**init_mutexes(int count);
+pthread_mutex_t	**init_arr_m_mutex(int count);
 time_t			get_time(void);
 void			print_msg(t_philo *philo, char *msg);
 

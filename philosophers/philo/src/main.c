@@ -6,8 +6,17 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 22:38:40 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/08 18:10:22 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/13 15:19:26 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int main(int argc, char **argv)
+{
+	int	res;
+
+	res = check_args(argc, argv);
+	if (res == SUCCESS)
+
+}
