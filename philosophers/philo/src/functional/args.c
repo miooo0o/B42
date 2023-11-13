@@ -6,12 +6,25 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:42:36 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/13 15:29:46 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/13 16:13:40 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "philo.h"
+
+void	init_data(int argc, char **argv)
+{
+	t_data	*data;
+
+	data = data_instance();
+	data->n_philos = ft_atoi(argv[1]);
+	data->time_die = ft_atoi(argv[2]);
+	data->time_eat = ft_atoi(argv[3]);
+	data->time_jam = ft_atoi(argv[4]);
+	if (argc == 6)
+		data->required_n_meals = ft_atoi(argv[5]);
+}
 
 t_exit	check_args(int argc, char **argv)
 {

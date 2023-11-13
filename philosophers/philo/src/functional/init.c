@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:41:38 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/13 15:46:41 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/13 16:13:36 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,6 @@ t_data	*data_instance(void)
 		.required_n_meals = -1
 	};
 	is_init = TRUE;
-}
-
-void	init_data(int argc, char **argv)
-{
-	t_data	*data;
-
-	data = data_instance();
-	data->n_philos = ft_atoi(argv[1]);
-	data->time_die = ft_atoi(argv[2]);
-	data->time_eat = ft_atoi(argv[3]);
-	data->time_jam = ft_atoi(argv[4]);
-	if (argc == 6)
-		data->required_n_meals = ft_atoi(argv[5]);
 }
 
 t_exit	init_rsc(int n_philos)
