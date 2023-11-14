@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 22:38:40 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/14 10:50:32 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/14 16:07:34 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,7 @@ int main(int argc, char **argv)
 	res = check_args(argc, argv);
 	if (res == SUCCESS)
 		res = init(argc, argv);
+	if (res == SUCCESS)
+
+	return (res);
 }

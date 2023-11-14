@@ -19,7 +19,7 @@ t_exit	init_arr_m_mutex(int count, t_mutex **target)
 	return (SUCCESS);
 }
 
-
+/// @note Converts microseconds to milliseconds.
 time_t	ft_gettime(void)
 {
 	struct timeval	tv;
@@ -38,8 +38,36 @@ void	ft_usleep(time_t time)
 		usleep(10);
 }
 
-void	print_status(t_philo *philo, char *msg)
+void	ft_print(t_philo *philo, t_steps step)
 {
-	time_t	now;
+	t_ll	current;
+	t_rsc	*rsc;
 
+	rsc = rsc_instance();
+
+	pthread_mutex_lock(&rsc->arr_m_status[philo->id]);
+	pthread_mutex_lock(&rsc->print);
+	current = ft_gettime() - philo->creation_time;
+	if (step == FORK && philo->is_alive)
+		printf("%*lld %d has taken a fork\n", ALIGN, current, philo->id);
+	if (step == EAT && philo->is_alive)
+		printf("%*lld %d is eating\n", ALIGN, current, philo->id);
+	if (step == SLEEP && philo->is_alive)
+		printf("%*lld %d is sleeping\n", ALIGN, current, philo->id);
+	if (step == THINK && philo->is_alive)
+		printf("%*lld %d is thinking\n", ALIGN, current, philo->id);
+	if (step == DIE && philo->is_alive)
+		printf("%*lld %d has died\\n", ALIGN, current, philo->id);
+	pthread_mutex_lock(&rsc->print);
+	pthread_mutex_unlock(&rsc->arr_m_status[philo->id]);
+}
+
+t_ll	to_microsec(t_ll millisec)
+{
+	return (millisec * 1000);
+}
+
+t_ll	to_millisec(t_ll microsec)
+{
+	return (microsec / 1000);
 }
