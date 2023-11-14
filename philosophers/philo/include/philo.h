@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/13 15:47:47 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/14 10:45:02 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	ft_usleep(time_t time);
 int	ft_error_msg(const char *msg);
 
 t_exit	check_args(int argc, char **argv);
-void	init_data(int argc, char **argv);
 
 t_exit	init(int argc, char **argv);
 

@@ -6,10 +6,9 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:42:36 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/13 16:13:40 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/14 10:48:40 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "philo.h"
 
@@ -32,7 +31,7 @@ t_exit	check_args(int argc, char **argv)
 	int exit;
 
 	i = 0;
-	if (!(argc >= 5 && argc <= 6))
+	if (!(argc == 5 || argc == 6))
 		return (INPUT_VALID_ERROR);
 	while (++i < argc)
 	{
