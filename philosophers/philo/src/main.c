@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 22:38:40 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/21 01:20:11 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/21 18:28:06 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,33 @@ t_exit	philosophers(void)
 	while (++i < rsc->data->n_philos)
 		pthread_join(arr_m_threads[i], NULL);
 	free(arr_m_threads);
+	free_and_destroy();
+	return (SUCCESS);
+}
+
+void	free_single(void **ptr)
+{
+	if (ptr == NULL || *ptr == NULL)
+		return;
+	free(*ptr);
+	*ptr = NULL;
+}
+
+t_exit	free_and_destroy(void)
+{
+	t_rsc	*rsc;
+	int		n_philos;
+
+	rsc = rsc_instance();
+	n_philos = rsc->data->n_philos;
+	destroy_arr_m_mutex(n_philos, rsc->arr_m_last_meal);
+	destroy_arr_m_mutex(n_philos, rsc->arr_m_n_eaten);
+	destroy_arr_m_mutex(n_philos, rsc->arr_m_forks);
+	destroy_arr_m_mutex(n_philos, rsc->arr_m_status);
+	pthread_mutex_destroy(&rsc->print);
+	pthread_mutex_destroy(&rsc->timetable);
+	free_single((void **)&rsc->arr_m_philos);
+	free_single((void **)&rsc->arr_m_timetable);
 	return (SUCCESS);
 }
 
@@ -57,5 +84,6 @@ int main(int argc, char **argv)
 
 		exit = philosophers();
 	}
+
 	return (exit);
 }

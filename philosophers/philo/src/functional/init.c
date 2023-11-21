@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:41:38 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/21 01:20:45 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/21 15:55:51 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ t_exit	init_philos(int n_philos)
 	int 	i;
 
 	rsc = rsc_instance();
-//	last_philo_id = rsc->data->last_philo_id;
 	if (n_philos == 1)
 	{
 		rsc->arr_m_philos[0] = init_one_philo(rsc, 0);
@@ -100,11 +99,6 @@ t_exit	init_philos(int n_philos)
 	{
 		rsc->arr_m_philos[i] = init_one_philo(rsc, i);
 		rsc->arr_m_philos[i].r_fork = &rsc->arr_m_forks[rightfork(i, n_philos)];
-		printf("philo [%d] has %d l_fork, %d r_fork\n", i , i, rightfork(i, n_philos) );
-		//		if (i == last_philo_id && i > 0)
-//			rsc->arr_m_philos[i].r_fork = &rsc->arr_m_forks[0];
-//		else
-//			rsc->arr_m_philos[i].r_fork = &rsc->arr_m_forks[i + i];
 	}
 	return (SUCCESS);
 }

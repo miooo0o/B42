@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/21 01:17:28 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/21 18:33:28 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/time.h>
 # include <string.h>
 
-# define ALIGN 6
+# define ALIGN 0
 # define NONE -1
 # define CHECK_INTERVAL 1
 
@@ -119,4 +119,6 @@ t_rsc	*rsc_instance(void);
 
 void	ft_print(t_philo *philo, t_steps step);
 t_bool	all_alive(t_philo *philo);
+t_exit	destroy_arr_m_mutex(int count, t_mutex *target);
+t_exit	free_and_destroy(void);
 #endif

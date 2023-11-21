@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:43:51 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/21 00:30:20 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/21 18:49:28 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int who_died(t_rsc *rsc)
 	int		i;
 	t_ll	current;
 	t_ll	passed_time;
-
 
 	current = ft_gettime();
 	i = -1;
@@ -74,6 +73,6 @@ void	*death_is_sure_to_all(void	*p)
 //		}
 
 	}
-	ft_usleep(1);
+//	ft_usleep(1);
 	return (NULL);
 }
