@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/21 18:33:28 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/21 19:30:03 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,15 @@ typedef struct s_philo {
 	t_mutex	*l_fork;	/// address
 } 	t_philo;
 
-
 typedef struct s_rsc {
 	t_mutex	*arr_m_forks;
 	t_mutex	*arr_m_n_eaten;
-	t_mutex *arr_m_status;
+	t_mutex *arr_m_status; /// change "is_alive"
 	t_mutex *arr_m_last_meal;
 	t_mutex	print;
+	t_mutex	timetable; /// "change "who_next"
 	t_philo	*arr_m_philos;
 	t_data	*data;
-	t_mutex	timetable;
 	int 	*arr_m_timetable;
 	int		*who_next;
 } t_rsc;

@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 19:01:48 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/21 18:46:49 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/21 19:48:50 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	update_n_eaten(t_philo *philo, t_rsc *rsc)
 	philo->n_eaten += 1;
 	pthread_mutex_unlock(&(rsc->arr_m_n_eaten[philo->id]));
 }
+
 /// 홀수 번째 철학자는 왼오, 짝수번째 철학자는 오왼 순서
 void	*eat(t_philo *philo, t_rsc *rsc)
 {

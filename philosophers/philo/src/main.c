@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 22:38:40 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/21 18:28:06 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/21 19:41:43 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,17 @@ t_exit	philosophers(void)
 	i = -1;
 	while (++i < rsc->data->n_philos)
 	{
+//		printf("hi\n");
 		rsc->arr_m_philos[i].creation_time = ft_gettime();
 		rsc->arr_m_philos[i].last_meal = ft_gettime();
 		pthread_create(&(arr_m_threads[i]), NULL, lifecycle, &(rsc->arr_m_philos)[i]);
 	}
 	i = -1;
 	while (++i < rsc->data->n_philos)
+	{
+//		printf("this philo %d\n", rsc->arr_m_philos[i].id);
 		pthread_join(arr_m_threads[i], NULL);
+	}
 	free(arr_m_threads);
 	free_and_destroy();
 	return (SUCCESS);
@@ -74,13 +78,13 @@ int main(int argc, char **argv)
 		exit = init();
 	if (exit == SUCCESS)
 	{
-		/// @TEST
-		printf("time table :");
-		int i = -1;
-		t_rsc	*rsc = rsc_instance();
-		while (++i < rsc->data->n_philos)
-			printf("[%d]", rsc->arr_m_timetable[i]);
-		printf("\n");
+//		/// @TEST
+//		printf("time table :");
+//		int i = -1;
+//		t_rsc	*rsc = rsc_instance();
+//		while (++i < rsc->data->n_philos)
+//			printf("[%d]", rsc->arr_m_timetable[i]);
+//		printf("\n");
 
 		exit = philosophers();
 	}
