@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:42:36 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/14 17:06:54 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/19 20:35:17 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_data(int argc, char **argv)
 
 	data = data_instance();
 	data->n_philos = ft_atoi(argv[1]);
+	data->last_philo_id = data->n_philos - 1;
 	data->time_die = ft_atoi(argv[2]);
 	data->time_eat = ft_atoi(argv[3]);
 	data->time_jam = ft_atoi(argv[4]);

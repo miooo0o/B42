@@ -15,7 +15,7 @@
 
 ### The specific rules
 - Each philosopher should be a thread.
-- There is one fork between each pair of p_threads. Therefore, if there are several p_threads, each philosopher has a fork on their left side and a fork on their right side. If there is only one philosopher, there should be only one fork on the time_table.
+- There is one fork between each pair of p_threads. Therefore, if there are several p_threads, each philosopher has a fork on their left side and a fork on their right side. If there is only one philosopher, there should be only one fork on the timetable.
 - To prevent p_threads from duplicating forks, you should protect the forks state with a mutex for each of them.
 
 ### Arguments
@@ -52,17 +52,17 @@
 ### Overview
 Here are the things you need to know if you want to succeed this assignment:
 
-- One or more p_threads sit at a round time_table.
-There is a large bowl of spaghetti in the middle of the time_table.
+- One or more p_threads sit at a round timetable.
+There is a large bowl of spaghetti in the middle of the timetable.
 
 - The p_threads alternatively `eat`, `think`, or `sleep`.
 While they are eating, they are not thinking nor sleeping;
 while thinking, they are not eating nor sleeping;
 and, of course, while sleeping, they are not eating nor thinking.
 
-- There are also forks on the time_table. There are **as many forks as p_threads**.
+- There are also forks on the timetable. There are **as many forks as p_threads**.
 - Because serving and eating spaghetti with only one fork is very inconvenient, a philosopher takes their right and their left forks to eat, one in each hand.
-- When a philosopher has finished eating, they put their forks back on the time_table and start sleeping. Once awake, they start thinking again. The simulation stops when  a philosopher dies of starvation.
+- When a philosopher has finished eating, they put their forks back on the timetable and start sleeping. Once awake, they start thinking again. The simulation stops when  a philosopher dies of starvation.
 - Every philosopher needs to eat and should never starve.
 - Philosophers don’t speak with each other.
 - Philosophers don’t know if another philosopher is about to die.

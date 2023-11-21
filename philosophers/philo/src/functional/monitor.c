@@ -6,32 +6,35 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:43:51 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/14 17:43:19 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/21 00:30:20 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	a_sudden_death_is_the_best(t_rsc *rsc, int target)
+void	a_sudden_death_is_the_best(t_rsc *rsc, int id)
 {
 	int		i;
 
 	i = -1;
+	printf("dead philo found\n");
 	while (++i < rsc->data->n_philos)
 	{
 		pthread_mutex_lock(&rsc->arr_m_status[i]);
 		rsc->arr_m_philos[i].is_alive = FALSE;
 		pthread_mutex_unlock(&rsc->arr_m_status[i]);
 	}
-	ft_print(&rsc->arr_m_philos[target], DIE);
+	if (id >= 0)
+		ft_print(&rsc->arr_m_philos[id], DIE);
 }
 
-
-int detecting_target(t_rsc *rsc)
+int who_died(t_rsc *rsc)
 {
-	int i;
+	int		i;
 	t_ll	current;
 	t_ll	passed_time;
+
+
 	current = ft_gettime();
 	i = -1;
 	while (++i < rsc->data->n_philos)
@@ -40,25 +43,37 @@ int detecting_target(t_rsc *rsc)
 		if (passed_time > rsc->data->time_die)
 			return (i);
 	}
-	return (NONE_SET);
+	return (NONE);
 }
 
+//int all_n_eaten(t_rsc *rsc)
+//{
+//
+//	return (TRUE);
+//	return (FALSE);
+//}
 
-void	*death_is_sure_to_all(void	*r)
+void	*death_is_sure_to_all(void	*p)
 {
 	t_rsc	*rsc;
-	int		who_died;
+	int		the_philo;
 
-	rsc = r;
+	rsc = p;
 	while (1)
 	{
-		who_died = detecting_target(rsc);
-		if (who_died != NONE_SET)
+		the_philo = who_died(rsc);
+		if (the_philo != NONE)
 		{
-			a_sudden_death_is_the_best(rsc, who_died);
+			a_sudden_death_is_the_best(rsc, the_philo);
 			break ;
 		}
+//		if (rsc->data->required_n_meals >= 0 && all_n_eaten(rsc))
+//		{
+//			a_sudden_death_is_the_best(rsc, NONE);
+//			break ;
+//		}
+
 	}
-	ft_usleep(1000);
+	ft_usleep(1);
 	return (NULL);
 }

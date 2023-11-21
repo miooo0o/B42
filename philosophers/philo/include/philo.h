@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/14 17:12:17 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/21 01:17:28 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # include <string.h>
 
 # define ALIGN 6
-# define NONE_SET -1
+# define NONE -1
+# define CHECK_INTERVAL 1
 
 typedef enum e_bool{
 	FALSE = 0,
@@ -54,8 +55,10 @@ typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_pth;
 typedef struct s_rsc	t_rsc;
 
+/// @note time_x : milli second
 typedef struct s_data {
 	int		n_philos;
+	int		last_philo_id;
 	t_ll	time_die;
 	t_ll	time_eat;
 	t_ll	time_jam;
@@ -68,8 +71,6 @@ typedef struct s_philo {
 	int		n_eaten;
 	t_bool	is_alive;
 	t_ll	last_meal;
-	t_steps	step;
-	t_mutex	*meal;		/// address
 	t_mutex	*r_fork;	/// address
 	t_mutex	*l_fork;	/// address
 } 	t_philo;
@@ -83,6 +84,9 @@ typedef struct s_rsc {
 	t_mutex	print;
 	t_philo	*arr_m_philos;
 	t_data	*data;
+	t_mutex	timetable;
+	int 	*arr_m_timetable;
+	int		*who_next;
 } t_rsc;
 
 /// @file utils, libft.c
@@ -99,15 +103,20 @@ void	ft_usleep(time_t time);
 t_ll	to_microsec(t_ll millisec);
 t_ll	to_millisec(t_ll microsec);
 
+
+void	*death_is_sure_to_all(void	*p);
+void	*lifecycle(void *p);
+
 /// @file utils, error.c
 int	ft_error_msg(const char *msg);
 
 t_exit	check_args(int argc, char **argv);
 
-t_exit	init(int argc, char **argv);
+t_exit	init(void);
 
 t_data	*data_instance(void);
 t_rsc	*rsc_instance(void);
 
 void	ft_print(t_philo *philo, t_steps step);
+t_bool	all_alive(t_philo *philo);
 #endif
