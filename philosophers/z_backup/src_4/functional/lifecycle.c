@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../philo_4.h"
 
 void	*eat(t_philo *philo, t_rsc *rsc);
 void	*jam(t_philo *philo, t_rsc *rsc);

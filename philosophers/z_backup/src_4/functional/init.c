@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../philo_4.h"
 
 t_exit	init_arr_m_mutex(int count, t_mutex **target)
 {

@@ -1,5 +1,5 @@
 
-#include "philo.h"
+#include "../../philo_4.h"
 
 int	ft_isspace(const char c)
 {

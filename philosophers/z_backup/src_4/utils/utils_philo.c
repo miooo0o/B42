@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../philo_4.h"
 
 /// @note Converts microseconds to milliseconds.
 time_t	ft_gettime(void)

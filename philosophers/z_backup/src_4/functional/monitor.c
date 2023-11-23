@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../philo_4.h"
 
 void	a_sudden_death_is_the_best(t_rsc *rsc, int id)
 {
