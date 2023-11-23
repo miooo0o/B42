@@ -16,11 +16,11 @@ int	ft_error_msg(const char *where, t_exit err)
 {
 	if (err != SUCCESS)
 	{
-		if (err == MEM_ERROR)
+		if (err == MEM_ERR)
 			printf("error: %s: %s\n", where, MEM_ERROR_MSG);
-		else if (err == INIT_ERROR)
+		else if (err == INIT_ERR)
 			printf("error: %s: %s\n", where, INIT_ERROR_MSG);
-		else if (err == INPUT_VALID_ERROR)
+		else if (err == INPUT_VALID_ERR)
 			printf("error: %s: %s\n", where, INPUT_VALID_ERROR_MSG);
 		else
 			printf("error: can't find error code.\n");
@@ -67,12 +67,12 @@ t_exit	init_arr_m_mutex(int count, t_mutex **target)
 	this = NULL;
 	this = ft_memalloc(sizeof(t_mutex) * count);
 	if (this == NULL)
-		return (MEM_ERROR);
+		return (MEM_ERR);
 	i = -1;
 	while (++i < count)
 	{
 		if (pthread_mutex_init(&this[i], NULL) != 0)
-			return (free(this), INIT_ERROR);
+			return (free(this), INIT_ERR);
 	}
 	*target = this;
 	return (SUCCESS);

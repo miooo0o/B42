@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/23 18:18:01 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/23 18:31:44 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ typedef enum e_side {
 
 typedef enum e_exit{
 	SUCCESS,
-	MEM_ERROR,
-	INIT_ERROR,
-	INPUT_VALID_ERROR,
+	MEM_ERR,
+	INIT_ERR,
+	INPUT_VALID_ERR,
 }	t_exit;
 
 typedef struct s_fork
@@ -79,7 +79,7 @@ typedef struct s_philo {
 	t_data	*data;		/// address
 } 	t_philo;
 
-/// @note time_x : milli second
+/// @note time_x : saved as micro second
 typedef struct s_data {
 	int		n_philos;
 	int		last_philo_id;
@@ -94,8 +94,8 @@ typedef struct s_data {
 	t_mutex	mt_meal;
 	t_mutex	mt_print;
 	t_mutex	mt_time;
-	t_philo	**philos;
-	t_fork	**forks;
+	t_philo	**arr_m_philos;
+	t_fork	**arr_m_forks;
 }	t_data;
 
 /// @file utils, libft.c
@@ -105,8 +105,11 @@ int		ft_isdigit(const char c);
 int		ft_isspace(const char c);
 int		ft_all_satisfy(int (*f)(char c), char *s);
 
+/// @file
+int	ft_error_msg(const char *where, t_exit err);
+
 /// @file utils, utils.c
 t_exit	init_arr_m_mutex(int count, t_mutex **target);
-
+t_exit	destroy_arr_m_mutex(int count, t_mutex *target);
 
 #endif
