@@ -6,7 +6,7 @@
 /*   By: minakim <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:47:44 by minakim           #+#    #+#             */
-/*   Updated: 2022/12/30 22:07:56 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/23 17:30:39 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 char	*ft_strdup(const char *s)
 {
-	char	*new_s;
-	size_t	slen;
+	char	*res;
+	size_t	len;
 	size_t	i;
 
 	i = 0;
-	slen = ft_strlen(s);
-	new_s = (char *)malloc(sizeof(char) * (slen + 1));
-	if (!new_s)
+	len = ft_strlen(s);
+	res = (char *)malloc(sizeof(char) * (len + 1));
+	if (!res)
 		return (NULL);
-	while (i < slen)
+	while (i < len)
 	{
-		new_s[i] = s[i];
+		res[i] = s[i];
 		i++;
 	}
-	new_s[i] = '\0';
-	return (new_s);
+	res[i] = '\0';
+	return (res);
 }

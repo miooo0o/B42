@@ -6,7 +6,7 @@
 /*   By: minakim <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 12:52:07 by minakim           #+#    #+#             */
-/*   Updated: 2023/02/04 18:54:58 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/23 17:25:20 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**do_split(char const *s, char c, char **split)
 		if (s[index] != c)
 		{
 			start = index;
-			while (s[index] != c && s[index])
+			while (s[index] && s[index] != c)
 				index++;
 			split[split_index++] = ft_substr(s, start, index - start);
 		}
@@ -65,10 +65,12 @@ char	**ft_split(char const *s, char c)
 	size_t	count;
 	char	**split;
 
+	if (!s)
+		return (NULL);
 	count = get_count(s, c);
 	split = (char **)malloc(sizeof(char *) * (count + 1));
-	if (!s || !split)
-		return (0);
+	if (!split)
+		return (NULL);
 	split = do_split(s, c, split);
 	return (split);
 }
