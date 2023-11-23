@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/23 18:31:44 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/23 18:58:50 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_data {
 	t_ll	time_eat;
 	t_ll	time_jam;
 	int		required_n_meals;
-	t_bool	is_n_eaten_finished;
+	t_bool	is_n_meals_finished;
 	t_bool	all_alive;
 	t_mutex	mt_dead;
 	t_mutex	mt_death_time;
@@ -101,8 +101,8 @@ typedef struct s_data {
 /// @file utils, libft.c
 int		ft_atoi(const char *str);
 void	*ft_memalloc(size_t size);
-int		ft_isdigit(const char c);
-int		ft_isspace(const char c);
+int		ft_isdigit(char c);
+int		ft_isspace(char c);
 int		ft_all_satisfy(int (*f)(char c), char *s);
 
 /// @file
@@ -111,5 +111,8 @@ int	ft_error_msg(const char *where, t_exit err);
 /// @file utils, utils.c
 t_exit	init_arr_m_mutex(int count, t_mutex **target);
 t_exit	destroy_arr_m_mutex(int count, t_mutex *target);
+
+t_exit	check_args(int argc, char **argv);
+t_data	*init_data(int argc, char **argv);
 
 #endif

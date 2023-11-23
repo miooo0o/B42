@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int	ft_isspace(const char c)
+int	ft_isspace(char c)
 {
 	if (c == ' ' || c == '\n' || c == '\t'
 		|| c == '\v' || c == '\f' || c == '\r')
@@ -21,7 +21,7 @@ int	ft_isspace(const char c)
 		return (0);
 }
 
-int	ft_isdigit(const char c)
+int	ft_isdigit(char c)
 {
 	if (!(c >= '0' && c <= '9'))
 		return (0);
