@@ -6,28 +6,30 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 17:55:39 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/23 18:19:53 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/28 16:11:19 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_error_msg(const char *where, t_exit err)
+int	ft_err(const char *f_name, t_exit err)
 {
 	if (err != SUCCESS)
 	{
 		if (err == MEM_ERR)
-			printf("error: %s: %s\n", where, MEM_ERROR_MSG);
-		else if (err == INIT_ERR)
-			printf("error: %s: %s\n", where, INIT_ERROR_MSG);
+			printf("error: %s: %s\n", f_name, MEM_ERROR_MSG);
+		else if (err == INIT_M_ERR)
+			printf("error: %s: %s\n", f_name, INIT_ERROR_MSG);
 		else if (err == INPUT_VALID_ERR)
-			printf("error: %s: %s\n", where, INPUT_VALID_ERROR_MSG);
+			printf("error: %s: %s\n", f_name, INPUT_VALID_ERROR_MSG);
+		else if (err == GETTIME_ERR)
+			printf("error: %s: %s\n", f_name, "can't get time");
 		else
 			printf("error: can't find error code.\n");
-		return (1);
+		return (err);
 	}
 	printf("error: error code not set.\n");
-	return (0);
+	return (err);
 }
 
 //void	ft_print_log(t_philo *philo, t_logs log)
@@ -59,21 +61,21 @@ t_exit	destroy_arr_m_mutex(int count, t_mutex *target)
 	return (SUCCESS);
 }
 
-t_exit	init_arr_m_mutex(int count, t_mutex **target)
-{
-	int		i;
-	t_mutex	*this;
-
-	this = NULL;
-	this = ft_memalloc(sizeof(t_mutex) * count);
-	if (this == NULL)
-		return (MEM_ERR);
-	i = -1;
-	while (++i < count)
-	{
-		if (pthread_mutex_init(&this[i], NULL) != 0)
-			return (free(this), INIT_ERR);
-	}
-	*target = this;
-	return (SUCCESS);
-}
+//t_exit	init_arr_m_mutex(int count, t_mutex **target)
+//{
+//	int		i;
+//	t_mutex	*this;
+//
+//	this = NULL;
+//	this = ft_memalloc(sizeof(t_mutex) * count);
+//	if (this == NULL)
+//		return (MEM_ERR);
+//	i = -1;
+//	while (++i < count)
+//	{
+//		if (pthread_mutex_init(&this[i], NULL) != 0)
+//			return (free(this), INIT_M_ERR);
+//	}
+//	*target = this;
+//	return (SUCCESS);
+//}
