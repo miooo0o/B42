@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 18:15:10 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/28 16:50:02 by minakim          ###   ########.fr       */
+/*   Updated: 2023/11/28 16:51:11 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_exit	init_detail(t_data *data)
 	exit = init_arr_m_philos(data);
 	if (exit != SUCCESS)
 	{
-		/// destroy: init_single_mutexs,  init_arr_m_forks, free:  init_arr_m_forks
+		/// destroy: init_single_mutexs, init_arr_m_forks, free:  init_arr_m_forks
 		return (exit);
 	}
 	return (exit);
