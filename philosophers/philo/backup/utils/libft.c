@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 17:56:55 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/23 17:56:55 by minakim          ###   ########.fr       */
+/*   Created: 2023/11/29 18:21:36 by minakim           #+#    #+#             */
+/*   Updated: 2023/11/29 18:55:06 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_isdigit(char c)
 	return (1);
 }
 
-/// @note philo
+/// @note philo ver
 int	ft_atoi(const char *str)
 {
 	long long int	result;
@@ -41,32 +41,17 @@ int	ft_atoi(const char *str)
 		result = result * 10 + (*str - '0');
 		str++;
 	}
-	if (result > 2147483647)
+	if (result > INT_MAX || result == 0)
 		return (-1);
 	return ((int)result);
 }
 
-void	*ft_memalloc(size_t size)
+int	ft_strlen(const char *str)
 {
-	void	*temp;
+	int	i;
 
-	temp = (void *)malloc(size);
-	if (!temp)
-		return (NULL);
-	memset(temp, 0, size);
-	return (temp);
-}
-
-/// @note work with ft_is functions
-int ft_all_satisfy(int (*f)(char c), char *s)
-{
-	if (!s)
-		return (0);
-	while (*s)
-	{
-		if (!f(*s))
-			return (0);
-		s++;
-	}
-	return (1);
+	i = -1;
+	while (str[++i])
+		;
+	return (i);
 }

@@ -7,4 +7,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -Wextra -g")
 include_directories(include)
 
 file(GLOB SOURCES "src/*.c")
+file(GLOB_RECURSE SOURCES "src/*.c")
+
 add_executable(philosophers ${SOURCES})
