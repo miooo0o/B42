@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 13:51:37 by minakim           #+#    #+#             */
-/*   Updated: 2023/12/05 15:24:30 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/05 16:54:10 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_death(t_philo *philo)
 
 	res = FALSE;
 	pthread_mutex_lock(&philo->mx_meal);
-	if (philo->left_meal &&
+	if (philo->left_meal && \
 		(ft_gettime_us() - philo->last_meal_us > philo->die_us))
 		res = TRUE;
 	pthread_mutex_unlock(&philo->mx_meal);
@@ -27,7 +27,7 @@ int	check_death(t_philo *philo)
 
 void	a_sudden_death_is_the_best(t_philo *philo)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	pthread_mutex_lock(&philo->mx_meal);
@@ -53,7 +53,7 @@ int	check_fullness(t_philo *philo)
 
 void	*ft_monitor(void *ptr)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
 	while (1)

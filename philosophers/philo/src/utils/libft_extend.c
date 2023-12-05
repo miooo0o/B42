@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:28:26 by minakim           #+#    #+#             */
-/*   Updated: 2023/12/05 16:31:37 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/05 16:58:24 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*ft_memalloc(size_t size)
 }
 
 /// @note work with ft_is functions
-int ft_all_satisfy(int (*f)(char c), char *s)
+int	ft_all_satisfy(int (*f)(char c), char *s)
 {
 	if (!s)
 		return (0);

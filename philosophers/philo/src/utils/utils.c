@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:27:42 by minakim           #+#    #+#             */
-/*   Updated: 2023/12/05 16:27:45 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/05 16:58:05 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_ll	round_ms(t_ll us)
 {
 	t_ll	ms;
 	t_ll	remain;
+
 	ms = us / 1000;
 	remain = ms % 10;
 	if (remain >= 5)

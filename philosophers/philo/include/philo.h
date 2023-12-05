@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/12/05 16:20:15 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/05 17:01:23 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,8 @@ int		philosophers(t_data *data);
 int		check_args(int ac, char **av);
 t_bool	init_data(int ac, char **av, t_data *data);
 
-///	@file lifecycle.c
+///	@file lifecycle.c, eat.c
+void	eat(t_philo *philo);
 void	*ft_lifecycle(void *ptr);
 
 /// @file monitor.c

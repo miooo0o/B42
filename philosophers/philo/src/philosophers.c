@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:17:41 by minakim           #+#    #+#             */
-/*   Updated: 2023/12/05 16:18:40 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/05 16:56:40 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@ void	prepare_philo(t_data *data);
 
 int	philosophers(t_data *data)
 {
-	int i;
+	int	i;
 
 	prepare_philo(data);
 	i = -1;
 	while (++i < data->n_philos)
 	{
-		if (pthread_create(&data->arr_m_philos[i].pth, NULL,
-						   ft_lifecycle, &data->arr_m_philos[i]) != 0)
+		if (pthread_create(&data->arr_m_philos[i].pth, NULL, \
+		ft_lifecycle, &data->arr_m_philos[i]) != 0)
 			return (cleanup(data), ft_perror(ETHREADCREATE), FALSE);
 	}
 	i = -1;
 	while (++i < data->n_philos)
 	{
-		if (pthread_create(&data->arr_m_philos[i].mon_pth, NULL,
-						   ft_monitor, &data->arr_m_philos[i]) != 0)
+		if (pthread_create(&data->arr_m_philos[i].mon_pth, NULL, \
+		ft_monitor, &data->arr_m_philos[i]) != 0)
 			return (cleanup(data), ft_perror(ETHREADCREATE), FALSE);
 	}
 	i = -1;
@@ -46,7 +46,7 @@ int	philosophers(t_data *data)
 
 void	prepare_philo(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < data->n_philos)
@@ -60,8 +60,8 @@ void	prepare_philo(t_data *data)
 
 void	cleanup(t_data *data)
 {
-	int n_philo;
-	int i;
+	int	n_philo;
+	int	i;
 
 	n_philo = data->n_philos;
 	i = -1;

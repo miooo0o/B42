@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:29:18 by minakim           #+#    #+#             */
-/*   Updated: 2023/12/05 16:16:36 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/05 16:54:58 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	check_args(int ac, char **av)
 {
-	int i;
-	int exit;
+	int	i;
+	int	exit;
 
 	i = 0;
 	while (++i < ac)
@@ -66,7 +66,8 @@ static void	init_each_philo(t_data *data)
 	}
 	if (data->n_philos > 1)
 	{
-		data->arr_m_philos[0].l_fork.mx = &data->arr_m_forks[data->n_philos - 1];
+		data->arr_m_philos[0].l_fork.mx = \
+			&data->arr_m_forks[data->n_philos - 1];
 		data->arr_m_philos[0].l_fork.is_taken = FALSE;
 	}
 }
