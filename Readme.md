@@ -67,3 +67,9 @@ and, of course, while sleeping, they are not eating nor thinking.
 - Philosophers don’t speak with each other.
 - Philosophers don’t know if another philosopher is about to die.
 - No need to say that p_threads should avoid dying!
+
+
+### Philosophers and Forks Protocol
+- **Fork Placement Rule** : Every philosopher places their fork on the **right side** (standardized method within the project).
+- **Single Philosopher Exception** : When there's only one philosopher, the **left fork** is set to `NULL`.
+- **Argument Time Conversion** : All arguments are converted to `microseconds` for storage and then back to `milliseconds` upon retrieval, rounding to the nearest 10ms.
