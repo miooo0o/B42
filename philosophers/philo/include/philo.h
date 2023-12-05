@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 12:24:22 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/30 17:04:00 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/05 16:20:15 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <limits.h>
 # include <string.h>
 
+/// @note Define in short words
 typedef long long		t_ll;
 typedef unsigned int	t_ui;
 typedef pthread_mutex_t	t_mutex;
@@ -28,22 +29,21 @@ typedef pthread_t		t_pth;
 typedef struct s_data	t_data;
 
 /// @brief basic
-# define ALIGN 6
+# define ALIGN 0
 # define MAX_PHILOS 200
 # define INTERVAL 100
-# define JAM 100
+# define WAIT_TURN 100
+# define NONE -1
 
 /// @brief error msg
-# define EINVAL "Invalid argument, Numeric/non-negative numbers only"
+# define EINVAL "Invalid argument, Numeric/non-negative numbers only."
 # define EINARGNUM "Invalid number of arguments"
 # define ENOMEM "Cannot allocate memory"
-# define EOVERFLOW "Value too large for defined data type"
 # define ETHREADCREATE \
 "Failed to create thread: Insufficient resources or invalid attributes"
 
 /// @enum bool, logs
 typedef enum e_bool{
-	NONE = -1,
 	FALSE,
 	TRUE
 }	t_bool;
@@ -58,14 +58,32 @@ typedef enum e_logs {
 	DONE
 } t_logs;
 
+typedef enum e_state {
+	THINKING,
+	EATING,
+	NORMAL_HUNGRY,
+	SEVERELY_HUNGRY
+} t_state;
+
+typedef struct e_fork {
+	t_bool 	is_taken;
+	t_mutex	*mx;
+}	t_fork;
+
 /// @note mx: mutex, m: malloc
 typedef struct s_philo {
 	int 	id;
 	t_pth	pth;
 	t_pth	mon_pth;
-	t_mutex	*r_fork;	/// address
-	t_mutex	*l_fork;	/// address
+	t_fork	r_fork;
+	t_fork	l_fork;
 	t_mutex	mx_meal;	/// mutex
+
+//	/// TODO: 아직 구현하지 않음
+//	t_state	state;		/// opt
+//	t_mutex	mx_state;	/// opt mutex
+//	///
+
 	t_ll	creation_us;
 	t_ll	last_meal_us;
 	int		left_meal;
@@ -78,7 +96,6 @@ typedef struct s_philo {
 	t_ll	die_us;
 	t_ll	eat_us;
 	t_ll	jam_us;
-//	int		required_meals;
 } 	t_philo;
 
 /// @note time_x : saved as micro second
@@ -95,12 +112,18 @@ typedef struct s_data {
 }	t_data;
 
 /// @note all files in src
+/// @file philosophers.c
+int		philosophers(t_data *data);
+
 /// @file init.c
 int		check_args(int ac, char **av);
 t_bool	init_data(int ac, char **av, t_data *data);
 
-void	*ft_monitor(void *ptr);
+///	@file lifecycle.c
 void	*ft_lifecycle(void *ptr);
+
+/// @file monitor.c
+void	*ft_monitor(void *ptr);
 
 /// @note all files in src/utils
 /// @file utils, libft.c
@@ -118,4 +141,5 @@ void	ft_perror(const char *msg);
 t_ll	ft_gettime_us(void);
 void	ft_usleep_us(t_ll duration_usec);
 void	print_log(t_philo *philo, t_logs type);
+
 #endif

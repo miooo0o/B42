@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:29:18 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/30 14:14:52 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/05 16:16:36 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,17 @@ int	check_args(int ac, char **av)
 	return (TRUE);
 }
 
+static void	init_forks(t_data *data, int i)
+{
+	data->arr_m_philos[i].r_fork.mx = &data->arr_m_forks[i];
+	data->arr_m_philos[i].r_fork.is_taken = FALSE;
+	if (i != 0)
+	{
+		data->arr_m_philos[i].l_fork.mx = &data->arr_m_forks[i - 1];
+		data->arr_m_philos[i].l_fork.is_taken = FALSE;
+	}
+}
+
 /// Hold the fork corresponding to target's index on the right,
 /// and the fork of the other philosopher on the left.
 static void	init_each_philo(t_data *data)
@@ -44,20 +55,20 @@ static void	init_each_philo(t_data *data)
 	while (++i < data->n_philos)
 	{
 		pthread_mutex_init(&data->arr_m_philos[i].mx_meal, NULL);
-		data->arr_m_philos[i] = (t_philo){
-				.id = i + 1,
-				.n_philos = data->n_philos,
-				.die_us = data->die_us,
-				.eat_us = data->eat_us,
-				.jam_us = data->jam_us,
-				.r_fork = &data->arr_m_forks[i],
-				.data = data
-		};
-		if (i > 0)
-			data->arr_m_philos[i].l_fork = &data->arr_m_forks[i - 1];
+		data->arr_m_philos[i].id = i + 1;
+		data->arr_m_philos[i].n_philos = data->n_philos;
+		data->arr_m_philos[i].die_us = data->die_us;
+		data->arr_m_philos[i].eat_us = data->eat_us;
+		data->arr_m_philos[i].jam_us = data->jam_us;
+		data->arr_m_philos[i].left_meal = data->required_meals;
+		data->arr_m_philos[i].data = data;
+		init_forks(data, i);
 	}
 	if (data->n_philos > 1)
-		data->arr_m_philos[0].l_fork = &data->arr_m_forks[data->n_philos - 1];
+	{
+		data->arr_m_philos[0].l_fork.mx = &data->arr_m_forks[data->n_philos - 1];
+		data->arr_m_philos[0].l_fork.is_taken = FALSE;
+	}
 }
 
 t_bool	init_data(int ac, char **av, t_data *data)
@@ -80,6 +91,6 @@ t_bool	init_data(int ac, char **av, t_data *data)
 	pthread_mutex_init(&data->mx_death, NULL);
 	init_each_philo(data);
 	if (data->n_philos == 1)
-		data->arr_m_philos[0].l_fork = NULL;
+		data->arr_m_philos[0].l_fork.mx = NULL;
 	return (TRUE);
 }

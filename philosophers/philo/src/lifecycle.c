@@ -6,27 +6,20 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 13:06:16 by minakim           #+#    #+#             */
-/*   Updated: 2023/11/30 17:25:56 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/05 16:31:45 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/// TODO: 테스트 후 최적화가 필요하다면, 각 필로소퍼의 상태를 업데이트하고, 우선권을 주기
 
-int lonely_philo(t_philo *philo)
+void	lonely_philo(t_philo *philo)
 {
-	t_ll	current;
-	t_bool	is_lonely;
-
-	pthread_mutex_lock(&philo->data->mx_death);
-	current = ft_gettime_us() - philo->creation_us;
-	if (!philo->death_occurs && philo->l_fork == NULL)
-	{
-		printf("%*lld %d has taken a fork\n", ALIGN, current, philo->id);
-		is_lonely = TRUE;
-	}
-	pthread_mutex_unlock(&philo->data->mx_death);
-	return (is_lonely);
+	print_log(philo, THINK);
+	print_log(philo, FORK);
+	usleep(philo->die_us);
+	print_log(philo, DIE);
 }
 
 int	should_terminate_cycle(t_philo *philo)
@@ -41,49 +34,80 @@ int	should_terminate_cycle(t_philo *philo)
 	return (FALSE);
 }
 
-static void	eat_odd(t_philo *philo)
+int grab_forks(t_philo *philo, t_fork *first, t_fork *second)
 {
-
-	if (ft_gettime_us() - philo->last_meal_us < philo->eat_us + philo->jam_us + INTERVAL)
-		usleep(JAM);
-	pthread_mutex_lock(philo->r_fork);
-	print_log(philo, FORK);
-	pthread_mutex_lock(philo->l_fork);
-	print_log(philo, FORK);
-	pthread_mutex_lock(&philo->mx_meal);
-	philo->last_meal_us = ft_gettime_us();
-	/// FIXME: left meal의 업데이트 조건 바꿔야함,  header에 추가
-	/// TODO: 최적화, 각 필로소퍼의 상태를 업데이트하고, 우선권을 주는 함수 작성
-	/// TODO: 최적화, 포크를 "동시에" 쥘 수 있도록 t_fork 추가, fork->is_taken 추가
-	philo->left_meal--;
-	if (!philo->left_meal)
-		philo->is_fulled = TRUE;
-	print_log(philo, EAT);
-	ft_usleep_us(philo->eat_us);
-	pthread_mutex_unlock(&philo->mx_meal);
-	pthread_mutex_unlock(philo->l_fork);
-	pthread_mutex_unlock(philo->r_fork);
-
+	pthread_mutex_lock(first->mx);
+	if (!first->is_taken)
+	{
+		first->is_taken = TRUE;
+		pthread_mutex_lock(second->mx);
+		if (!second->is_taken)
+		{
+			second->is_taken = TRUE;
+			print_log(philo, FORK);
+			print_log(philo, FORK);
+			return (TRUE);
+		}
+		else
+		{
+			pthread_mutex_unlock(second->mx);
+			pthread_mutex_unlock(first->mx);
+			return (FALSE);
+		}
+	}
+	else
+		pthread_mutex_unlock(first->mx);
+	return (FALSE);
 }
 
-static void	eat_even(t_philo *philo)
+static void	find_order_to_grab(t_philo *philo, t_fork **first, t_fork **second)
 {
-	if (ft_gettime_us() - philo->last_meal_us < philo->eat_us + philo->jam_us + INTERVAL)
-		usleep(JAM);
-	pthread_mutex_lock(philo->l_fork);
-	print_log(philo, FORK);
-	pthread_mutex_lock(philo->r_fork);
-	print_log(philo, FORK);
-	pthread_mutex_lock(&philo->mx_meal);
-	philo->last_meal_us = ft_gettime_us();
-	philo->left_meal--;
-	if (!philo->left_meal)
-		philo->is_fulled = TRUE;
-	print_log(philo, EAT);
-	ft_usleep_us(philo->eat_us);
-	pthread_mutex_unlock(&philo->mx_meal);
-	pthread_mutex_unlock(philo->r_fork);
-	pthread_mutex_unlock(philo->l_fork);
+	if (philo->id % 2 == 0)
+	{
+		*first = &philo->l_fork;
+		*second = &philo->r_fork;
+	}
+	else
+	{
+		*first = &philo->r_fork;
+		*second = &philo->l_fork;
+	}
+}
+
+static void	release_forks(t_fork *first, t_fork *second)
+{
+
+	second->is_taken = FALSE;
+	pthread_mutex_unlock(second->mx);
+	first->is_taken = FALSE;
+	pthread_mutex_unlock(first->mx);
+}
+
+static void	eat(t_philo *philo)
+{
+	t_fork	*first;
+	t_fork	*second;
+
+	while (1)
+	{
+		if (ft_gettime_us() - philo->last_meal_us < philo->eat_us + philo->jam_us + INTERVAL)
+			usleep(WAIT_TURN);
+		find_order_to_grab(philo, &first, &second);
+		if (grab_forks(philo, first, second))
+		{
+			pthread_mutex_lock(&philo->mx_meal);
+			philo->last_meal_us = ft_gettime_us();
+			philo->left_meal--;
+			if (!philo->left_meal)
+				philo->is_fulled = TRUE;
+			print_log(philo, EAT);
+			ft_usleep_us(philo->eat_us);
+			pthread_mutex_unlock(&philo->mx_meal);
+			release_forks(first, second);
+			break;
+		}
+		usleep(WAIT_TURN);
+	}
 }
 
 void	*ft_lifecycle(void *ptr)
@@ -91,17 +115,13 @@ void	*ft_lifecycle(void *ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
-	if (lonely_philo(philo))
-		return (NULL);
-	while (1)
+
+	if (philo->n_philos == 1)
+		return (lonely_philo(philo), NULL);
+	while (!should_terminate_cycle(philo))
 	{
-		if (should_terminate_cycle(philo))
-			break;
 		print_log(philo, THINK);
-		if (philo->id % 2 == 0)
-			eat_even(philo);
-		else
-			eat_odd(philo);
+		eat(philo);
 		print_log(philo, SLEEP);
 		usleep(philo->jam_us);
 	}
