@@ -1,8 +1,9 @@
 # Alias
-CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -g
+CC			= cc -g
+CFLAGS		= -Wall -Werror -Wextra
 RM			= rm
 AR			= ar -rc
+SANITIZE	= -fsanitize=thread -lpthread
 
 MAKEFLAGS	+= --silent
 # -r : replace or add the specified files to the archive.
@@ -28,6 +29,8 @@ all:		$(NAME)
 
 $(NAME):	$(OBJS)
 			@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+			@#$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(SANITIE)
+
 #			@$(foreach dir,$(LIB_DIR),make -C $(dir);)
 			@#$(CC) $(CFLAGS) $(OBJS) $(LIB_PATH) -o $(NAME)
 
