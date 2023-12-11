@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:29:18 by minakim           #+#    #+#             */
-/*   Updated: 2023/12/05 16:54:58 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/11 16:34:40 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	check_args(int ac, char **av)
 
 static void	init_forks(t_data *data, int i)
 {
+	data->arr_m_philos[i].state = NONE_SET;
 	data->arr_m_philos[i].r_fork.mx = &data->arr_m_forks[i];
 	data->arr_m_philos[i].r_fork.is_taken = FALSE;
 	if (i != 0)
@@ -55,6 +56,7 @@ static void	init_each_philo(t_data *data)
 	while (++i < data->n_philos)
 	{
 		pthread_mutex_init(&data->arr_m_philos[i].mx_meal, NULL);
+		pthread_mutex_init(&data->arr_m_philos[i].mx_state, NULL);
 		data->arr_m_philos[i].id = i + 1;
 		data->arr_m_philos[i].n_philos = data->n_philos;
 		data->arr_m_philos[i].die_us = data->die_us;
@@ -95,3 +97,4 @@ t_bool	init_data(int ac, char **av, t_data *data)
 		data->arr_m_philos[0].l_fork.mx = NULL;
 	return (TRUE);
 }
+

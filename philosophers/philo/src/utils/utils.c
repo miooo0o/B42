@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:27:42 by minakim           #+#    #+#             */
-/*   Updated: 2023/12/05 16:58:05 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/11 16:27:19 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,14 @@ void	ft_usleep_us(t_ll duration_usec)
 
 	start_time = ft_gettime_us();
 	while (ft_gettime_us() - start_time < duration_usec)
-		;
-}
-
-// TODO 출력을 어떤 단위로 할지 고민해볼 것. 10ms 단위로 잘리기 때문에 약간은 위험할 수도 있음.
-t_ll	round_ms(t_ll us)
-{
-	t_ll	ms;
-	t_ll	remain;
-
-	ms = us / 1000;
-	remain = ms % 10;
-	if (remain >= 5)
-		return ((ms / 10) * 10 + 10);
-	else
-		return ((ms / 10) * 10);
+		usleep(10);
 }
 
 void	print_log(t_philo *philo, t_logs type)
 {
 	t_ll	current;
 
-//	current = (ft_gettime_us() - philo->creation_us) / 1000;
-	current = round_ms(ft_gettime_us() - philo->creation_us);
+	current = (ft_gettime_us() - philo->creation_us) / 1000;
 	pthread_mutex_lock(&philo->data->mx_log);
 	pthread_mutex_lock(&philo->data->mx_death);
 	if (!philo->death_occurs)
@@ -70,24 +55,21 @@ void	print_log(t_philo *philo, t_logs type)
 		else if (type == THINK)
 			printf("%*lld %d is thinking\n", ALIGN, current, philo->id);
 		else if (type == DIE)
-			printf("%*lld %d has died\n", ALIGN, current, philo->id);
+			printf("%*lld %d has died\n", ALIGN, current + 1, philo->id);
 	}
 	pthread_mutex_unlock(&philo->data->mx_death);
 	pthread_mutex_unlock(&philo->data->mx_log);
 }
 
-//void	set_state(t_philo *philo, t_state new_state)
-//{
-//	pthread_mutex_lock(&philo->mx_state);
-//	philo->state = new_state;
-//	pthread_mutex_unlock(&philo->mx_state);
-//}
-//
-//t_state	get_state(t_philo *philo)
-//{
-//	t_state	current;
-//	pthread_mutex_lock(&philo->mx_state);
-//	current = philo->state;
-//	pthread_mutex_unlock(&philo->mx_state);
-//	return (current);
-//}
+t_ll	round_ms(t_ll us)
+{
+	t_ll	ms;
+	t_ll	remain;
+
+	ms = us / 1000;
+	remain = ms % 10;
+	if (remain >= 5)
+		return ((ms / 10) * 10 + 10);
+	return ((ms / 10) * 10);
+}
+

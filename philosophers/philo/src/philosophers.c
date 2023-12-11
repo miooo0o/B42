@@ -6,7 +6,7 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:17:41 by minakim           #+#    #+#             */
-/*   Updated: 2023/12/05 16:56:40 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/11 16:03:53 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	prepare_philo(t_data *data)
 		data->arr_m_philos[i].last_meal_us = ft_gettime_us();
 		data->arr_m_philos[i].is_fulled = FALSE;
 		data->arr_m_philos[i].death_occurs = FALSE;
+		data->arr_m_philos[i].urgent_us = round_ms(data->die_us / DIVIDE_BY);
 	}
 }
 
@@ -66,7 +67,10 @@ void	cleanup(t_data *data)
 	n_philo = data->n_philos;
 	i = -1;
 	while (++i < n_philo)
+	{
 		pthread_mutex_destroy(&data->arr_m_philos[i].mx_meal);
+		pthread_mutex_destroy(&data->arr_m_philos[i].mx_state);
+	}
 	i = -1;
 	while (++i < n_philo)
 		pthread_mutex_destroy(&data->arr_m_forks[i]);
@@ -75,3 +79,4 @@ void	cleanup(t_data *data)
 	free(data->arr_m_philos);
 	free(data->arr_m_forks);
 }
+

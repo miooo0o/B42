@@ -6,13 +6,11 @@
 /*   By: minakim <minakim@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 13:06:16 by minakim           #+#    #+#             */
-/*   Updated: 2023/12/05 16:57:39 by minakim          ###   ########.fr       */
+/*   Updated: 2023/12/11 16:27:00 by minakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-/// TODO: 테스트 후 최적화가 필요하다면, 각 필로소퍼의 상태를 업데이트하고, 우선권을 주기
 
 void	lonely_philo(t_philo *philo)
 {
@@ -50,3 +48,4 @@ void	*ft_lifecycle(void *ptr)
 	}
 	return (NULL);
 }
+
